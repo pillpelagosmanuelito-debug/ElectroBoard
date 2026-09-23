@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.24.5'
+
+jobs:
+  contenido:
+    name: Contenido y motor de referencia
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Integridad del contenido
+        run: python3 tools/validate_content.py
+      - name: Imports, constructores e identificadores
+        run: |
+          python3 tools/check_imports.py
+          python3 tools/check_calls.py
+      - name: Casos de referencia al día
+        run: |
+          python3 tools/reference_engine.py --fixture
+          git diff --exit-code test/fixtures/reference_outcomes.json
+
+  analisis-y-pruebas:
+    name: Análisis y pruebas
+    needs: contenido
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Formato (informativo)
+        run: dart format --output=none --set-exit-if-changed lib test || echo "::warning::Hay archivos sin formatear"
+      - name: Análisis estático
+        run: flutter analyze --no-fatal-infos
+      - name: Pruebas
+        run: flutter test --reporter expanded
+
+  apk:
+    name: APK de Android
+    needs: analisis-y-pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Preparar Android (plataforma, nombre e íconos)
+        run: bash scripts/prepare_android.sh
+      - name: Compilar APK
+        run: flutter build apk --release
+      - name: Renombrar
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d+ -f1)
+          cp build/app/outputs/flutter-apk/app-release.apk "electroboard-${VERSION}.apk"
+          echo "APK_FILE=electroboard-${VERSION}.apk" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: electroboard-apk
+          path: ${{ env.APK_FILE }}
+          retention-days: 30
+
+  publicar:
+    name: Publicar versión
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: apk
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: electroboard-apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: '*.apk'
+          generate_release_notes: true

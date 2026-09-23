@@ -1,0 +1,3110 @@
+{
+ "generatedBy": "tools/reference_engine.py --fixture",
+ "cases": [
+  {
+   "mission": "incubadora",
+   "label": "reference",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 94.1333,
+   "costPen": 113,
+   "energyWhDay": 607.4076
+  },
+  {
+   "mission": "incubadora",
+   "label": "principiante_dht11_rele",
+   "design": {
+    "sensorId": "dht11",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 2,
+     "reportS": 60,
+     "firmware": "blocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 72,
+   "critical": [
+    "I01_delivery",
+    "L01_time_in_band",
+    "S03_accuracy"
+   ],
+   "staticCritical": [
+    "S03_accuracy"
+   ],
+   "timeInBandPct": 0.2667,
+   "costPen": 112,
+   "energyWhDay": 584.1594
+  },
+  {
+   "mission": "incubadora",
+   "label": "lm35_en_raspberry",
+   "design": {
+    "sensorId": "lm35",
+    "controllerId": "raspberry_pi4",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 67,
+   "critical": [
+    "A06_budget",
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S05_no_adc"
+   ],
+   "staticCritical": [
+    "A06_budget",
+    "S05_no_adc"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 331,
+   "energyWhDay": 87.5859
+  },
+  {
+   "mission": "incubadora",
+   "label": "ventilador",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "fan_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 82,
+   "critical": [
+    "C02_wrong_direction",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C02_wrong_direction"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 110,
+   "energyWhDay": 100.7068
+  },
+  {
+   "mission": "incubadora",
+   "label": "calefactor_gpio",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_gpio",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 80,
+   "critical": [
+    "C03_gpio_overcurrent",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C03_gpio_overcurrent"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 107,
+   "energyWhDay": 14.3068
+  },
+  {
+   "mission": "incubadora",
+   "label": "fuente_1a",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_1a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 80,
+   "critical": [
+    "C05_power_capacity",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C05_power_capacity"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 93,
+   "energyWhDay": 14.3068
+  },
+  {
+   "mission": "incubadora",
+   "label": "cargador_usb",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "usb_5v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 80,
+   "critical": [
+    "C04_load_voltage",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C04_load_voltage"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 83,
+   "energyWhDay": 14.3068
+  },
+  {
+   "mission": "incubadora",
+   "label": "rele_pid",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "C06_relay_pwm"
+   ],
+   "staticCritical": [
+    "C06_relay_pwm"
+   ],
+   "timeInBandPct": 93.6333,
+   "costPen": 117,
+   "energyWhDay": 607.2508
+  },
+  {
+   "mission": "incubadora",
+   "label": "bme280_en_uno",
+   "design": {
+    "sensorId": "bme280",
+    "controllerId": "arduino_uno",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 74,
+   "critical": [
+    "L01_time_in_band",
+    "S03_accuracy",
+    "S07_level_3v3_to_5v"
+   ],
+   "staticCritical": [
+    "S03_accuracy",
+    "S07_level_3v3_to_5v"
+   ],
+   "timeInBandPct": 67.2,
+   "costPen": 138,
+   "energyWhDay": 589.9942
+  },
+  {
+   "mission": "incubadora",
+   "label": "sin_reintento",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "I01_delivery"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 94.1333,
+   "costPen": 113,
+   "energyWhDay": 607.4076
+  },
+  {
+   "mission": "incubadora",
+   "label": "ble",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "ble",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 75,
+   "critical": [
+    "I01_delivery",
+    "K02_infra_missing",
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [
+    "K02_infra_missing"
+   ],
+   "timeInBandPct": 94.3556,
+   "costPen": 113,
+   "energyWhDay": 604.6512
+  },
+  {
+   "mission": "incubadora",
+   "label": "irf540n",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_std",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 85,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 0.0,
+   "costPen": 111,
+   "energyWhDay": 251.9068
+  },
+  {
+   "mission": "incubadora",
+   "label": "pid",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 94.1333,
+   "costPen": 113,
+   "energyWhDay": 607.4076
+  },
+  {
+   "mission": "incubadora",
+   "label": "rele_histeresis",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 37.5,
+     "hysteresis": 0.4,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 90,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 78.2889,
+   "costPen": 117,
+   "energyWhDay": 606.1948
+  },
+  {
+   "mission": "incubadora",
+   "label": "lm35_en_uno",
+   "design": {
+    "sensorId": "lm35",
+    "controllerId": "arduino_uno",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 92,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 89.7222,
+   "costPen": 128,
+   "energyWhDay": 601.1627
+  },
+  {
+   "mission": "incubadora",
+   "label": "dht22",
+   "design": {
+    "sensorId": "dht22",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 94.1889,
+   "costPen": 123,
+   "energyWhDay": 607.6541
+  },
+  {
+   "mission": "incubadora",
+   "label": "proporcional",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 2.0,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 48.4889,
+   "costPen": 113,
+   "energyWhDay": 597.4168
+  },
+  {
+   "mission": "incubadora",
+   "label": "muestreo_60s",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 60,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 78.6333,
+   "costPen": 113,
+   "energyWhDay": 604.0063
+  },
+  {
+   "mission": "incubadora",
+   "label": "onoff_simple",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 97,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 91.1778,
+   "costPen": 113,
+   "energyWhDay": 604.0828
+  },
+  {
+   "mission": "incubadora",
+   "label": "rele_hist_02_sp376",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 37.6,
+     "hysteresis": 0.2,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 2,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 95,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 94.4556,
+   "costPen": 117,
+   "energyWhDay": 609.8908
+  },
+  {
+   "mission": "incubadora",
+   "label": "rele_hist_02",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 37.5,
+     "hysteresis": 0.2,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 92,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 88.3889,
+   "costPen": 117,
+   "energyWhDay": 605.1388
+  },
+  {
+   "mission": "incubadora",
+   "label": "mosfet_hist_03",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_mosfet_ll",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 37.5,
+     "hysteresis": 0.3,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": false,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 84.0444,
+   "costPen": 113,
+   "energyWhDay": 606.7228
+  },
+  {
+   "mission": "incubadora",
+   "label": "rele_onoff_5s",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 37.5,
+     "hysteresis": 0.0,
+     "kp": 1.5,
+     "ki": 0.002,
+     "kd": 0,
+     "samplingS": 5,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 94,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 91.1778,
+   "costPen": 117,
+   "energyWhDay": 604.0828
+  },
+  {
+   "mission": "aula_co2",
+   "label": "reference",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 100,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 84.2626,
+   "costPen": 248,
+   "energyWhDay": 461.7269
+  },
+  {
+   "mission": "aula_co2",
+   "label": "mq135",
+   "design": {
+    "sensorId": "mq135",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 76,
+   "critical": [
+    "L08_alarm_latency",
+    "S02_range",
+    "S06_overrange"
+   ],
+   "staticCritical": [
+    "S02_range",
+    "S06_overrange"
+   ],
+   "timeInBandPct": 86.0808,
+   "costPen": 165,
+   "energyWhDay": 497.7811
+  },
+  {
+   "mission": "aula_co2",
+   "label": "ccs811",
+   "design": {
+    "sensorId": "ccs811",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 78,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S01_wrong_variable"
+   ],
+   "staticCritical": [
+    "S01_wrong_variable"
+   ],
+   "timeInBandPct": 3.0909,
+   "costPen": 193,
+   "energyWhDay": 18.4009
+  },
+  {
+   "mission": "aula_co2",
+   "label": "dht22_no_mide_co2",
+   "design": {
+    "sensorId": "dht22",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 78,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S01_wrong_variable"
+   ],
+   "staticCritical": [
+    "S01_wrong_variable"
+   ],
+   "timeInBandPct": 3.0909,
+   "costPen": 175,
+   "energyWhDay": 14.3774
+  },
+  {
+   "mission": "aula_co2",
+   "label": "ventilador_chico",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "fan_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 90,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 3.6162,
+   "costPen": 193,
+   "energyWhDay": 101.557
+  },
+  {
+   "mission": "aula_co2",
+   "label": "ventanilla_servo",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "window_servo",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 90,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 7.9394,
+   "costPen": 196,
+   "energyWhDay": 45.8541
+  },
+  {
+   "mission": "aula_co2",
+   "label": "extractor_rele_onoff",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 99,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 88.8283,
+   "costPen": 253,
+   "energyWhDay": 481.0106
+  },
+  {
+   "mission": "aula_co2",
+   "label": "extractor_rele_histeresis",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 750,
+     "hysteresis": 150,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 100,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 89.4545,
+   "costPen": 253,
+   "energyWhDay": 472.2833
+  },
+  {
+   "mission": "aula_co2",
+   "label": "mhz19b_en_uno",
+   "design": {
+    "sensorId": "mhz19b",
+    "controllerId": "arduino_uno",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": false,
+   "passed": false,
+   "overall": 92,
+   "critical": [
+    "S07_level_3v3_to_5v"
+   ],
+   "staticCritical": [
+    "S07_level_3v3_to_5v"
+   ],
+   "timeInBandPct": 76.101,
+   "costPen": 257,
+   "energyWhDay": 450.0951
+  },
+  {
+   "mission": "aula_co2",
+   "label": "mhz19b_en_esp32",
+   "design": {
+    "sensorId": "mhz19b",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 100,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 83.8788,
+   "costPen": 238,
+   "energyWhDay": 469.0981
+  },
+  {
+   "mission": "aula_co2",
+   "label": "cargador_usb",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "usb_5v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 82,
+   "critical": [
+    "C04_load_voltage",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C04_load_voltage"
+   ],
+   "timeInBandPct": 3.0909,
+   "costPen": 218,
+   "energyWhDay": 16.2833
+  },
+  {
+   "mission": "aula_co2",
+   "label": "principiante",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 800,
+     "hysteresis": 0,
+     "kp": 0.005,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 60,
+     "firmware": "blocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 89,
+   "critical": [
+    "I01_delivery"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 86.1616,
+   "costPen": 248,
+   "energyWhDay": 463.1197
+  },
+  {
+   "mission": "aula_co2",
+   "label": "pid",
+   "design": {
+    "sensorId": "scd40",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "extractor_mosfet",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "pid",
+     "setpoint": 700,
+     "hysteresis": 0,
+     "kp": 0.006,
+     "ki": 1e-05,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 100,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 89.0303,
+   "costPen": 248,
+   "energyWhDay": 480.3232
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "reference",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 84.4608,
+   "costPen": 282,
+   "energyWhDay": 105.752
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "hcsr04_esp32_sin_adaptador",
+   "design": {
+    "sensorId": "hcsr04",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "S07_level_5v_to_3v3"
+   ],
+   "staticCritical": [
+    "S07_level_5v_to_3v3"
+   ],
+   "timeInBandPct": 85.402,
+   "costPen": 224,
+   "energyWhDay": 107.4461
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "hcsr04_esp32_con_adaptador",
+   "design": {
+    "sensorId": "hcsr04",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 96,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 84.6471,
+   "costPen": 228,
+   "energyWhDay": 105.1873
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "jsn_zona_ciega",
+   "design": {
+    "sensorId": "jsnsr04t",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 83,
+   "critical": [
+    "L08_alarm_latency",
+    "S02_range"
+   ],
+   "staticCritical": [
+    "S02_range"
+   ],
+   "timeInBandPct": 84.2157,
+   "costPen": 253,
+   "energyWhDay": 105.8932
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "presion_sin_divisor",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 73,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S06_overrange"
+   ],
+   "staticCritical": [
+    "S06_overrange"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 278,
+   "energyWhDay": 588.0108
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "presion_en_uno",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "arduino_uno",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 82.2549,
+   "costPen": 285,
+   "energyWhDay": 110.1285
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "wifi_sin_reintento",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 80,
+   "critical": [
+    "I01_delivery",
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 84.4608,
+   "costPen": 192,
+   "energyWhDay": 108.292
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "wifi_con_reintento",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 84.4608,
+   "costPen": 192,
+   "energyWhDay": 108.292
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "onoff_rele",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 83.2353,
+   "costPen": 282,
+   "energyWhDay": 118.4579
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "bomba_gpio",
+   "design": {
+    "sensorId": "pressure_level",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_gpio",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 81,
+   "critical": [
+    "C03_gpio_overcurrent",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C03_gpio_overcurrent"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 247,
+   "energyWhDay": 12.0108
+  },
+  {
+   "mission": "tanque_edificio",
+   "label": "principiante",
+   "design": {
+    "sensorId": "hcsr04",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "pump_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 70,
+     "hysteresis": 16,
+     "kp": 0.1,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 10,
+     "reportS": 300,
+     "firmware": "blocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 77,
+   "critical": [
+    "I01_delivery",
+    "S07_level_5v_to_3v3"
+   ],
+   "staticCritical": [
+    "S07_level_5v_to_3v3"
+   ],
+   "timeInBandPct": 83.5196,
+   "costPen": 134,
+   "energyWhDay": 121.9578
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "reference",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 99,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 87.0154,
+   "costPen": 323,
+   "energyWhDay": 5.0554
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "bomba_sin_bajo_consumo",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "pump_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 84,
+   "critical": [
+    "A05_autonomy",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 58.3629,
+   "costPen": 330,
+   "energyWhDay": 18.2974
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "bomba_con_bajo_consumo",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "pump_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 92,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 58.3629,
+   "costPen": 330,
+   "energyWhDay": 11.4383
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "valvula_sin_bajo_consumo",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 99,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 87.0154,
+   "costPen": 323,
+   "energyWhDay": 11.9144
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "raspberry",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "raspberry_pi4",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 61,
+   "critical": [
+    "A05_autonomy",
+    "A06_budget",
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S05_no_adc"
+   ],
+   "staticCritical": [
+    "A06_budget",
+    "S05_no_adc"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 543,
+   "energyWhDay": 85.4163
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "wifi",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 78,
+   "critical": [
+    "I01_delivery",
+    "K02_infra_missing",
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [
+    "K02_infra_missing"
+   ],
+   "timeInBandPct": 86.2352,
+   "costPen": 278,
+   "energyWhDay": 4.8243
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "lora_cada_5min",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 92,
+   "critical": [
+    "K04_duty_cycle"
+   ],
+   "staticCritical": [
+    "K04_duty_cycle"
+   ],
+   "timeInBandPct": 87.7187,
+   "costPen": 323,
+   "energyWhDay": 4.8014
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "lte",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lte_m",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 87.0154,
+   "costPen": 368,
+   "energyWhDay": 5.1671
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "resistivo",
+   "design": {
+    "sensorId": "soil_resistive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 84,
+   "critical": [
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 83.6761,
+   "costPen": 318,
+   "energyWhDay": 4.8424
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "dht22_humedad_aire",
+   "design": {
+    "sensorId": "dht22",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 77,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "S01_wrong_variable"
+   ],
+   "staticCritical": [
+    "S01_wrong_variable"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 335,
+   "energyWhDay": 0.1948
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "cargador_usb_red",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "usb_5v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 74,
+   "critical": [
+    "A07_no_mains",
+    "C04_load_voltage",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "A07_no_mains",
+    "C04_load_voltage"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 148,
+   "energyWhDay": 0.2043
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "bateria_liion",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "liion_1s",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 75,
+   "critical": [
+    "C04_load_voltage",
+    "C09_driver_supply",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C04_load_voltage",
+    "C09_driver_supply"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 163,
+   "energyWhDay": 0.1367
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "onoff",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "pico_w",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 87.0154,
+   "costPen": 323,
+   "energyWhDay": 5.0554
+  },
+  {
+   "mission": "riego_vivero",
+   "label": "uno_bajo_consumo",
+   "design": {
+    "sensorId": "soil_capacitive",
+    "controllerId": "arduino_uno",
+    "actuatorId": "valve_relay",
+    "commId": "lora",
+    "powerId": "solar_12v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 40,
+     "hysteresis": 4,
+     "kp": 0.2,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 300,
+     "reportS": 900,
+     "firmware": "nonblocking",
+     "lowPower": true,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 97,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 87.2813,
+   "costPen": 328,
+   "energyWhDay": 11.6591
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "reference",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 99,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 100.0,
+   "costPen": 542,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "mpu6050_esp32",
+   "design": {
+    "sensorId": "mpu6050",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 74,
+   "critical": [
+    "L08_alarm_latency",
+    "L10_action_latency",
+    "S12_bandwidth"
+   ],
+   "staticCritical": [
+    "S12_bandwidth"
+   ],
+   "timeInBandPct": 96.9737,
+   "costPen": 178,
+   "energyWhDay": 11.9314
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "adxl345_esp32",
+   "design": {
+    "sensorId": "adxl345",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 97,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 100.0,
+   "costPen": 186,
+   "energyWhDay": 11.3949
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "sw420",
+   "design": {
+    "sensorId": "sw420",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 75,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "L10_action_latency",
+    "S01_wrong_variable"
+   ],
+   "staticCritical": [
+    "S01_wrong_variable"
+   ],
+   "timeInBandPct": 42.3772,
+   "costPen": 162,
+   "energyWhDay": 5.7196
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "sin_enclavamiento",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 76,
+   "critical": [
+    "C08_switch_rate",
+    "L01_time_in_band",
+    "L06_no_latch"
+   ],
+   "staticCritical": [
+    "L06_no_latch"
+   ],
+   "timeInBandPct": 83.6228,
+   "costPen": 542,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "wifi",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 77,
+   "critical": [
+    "I01_delivery",
+    "K02_infra_missing",
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [
+    "K02_infra_missing"
+   ],
+   "timeInBandPct": 99.8333,
+   "costPen": 546,
+   "energyWhDay": 10.6362
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "muestreo_30s",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 89,
+   "critical": [
+    "L10_action_latency"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 97.5175,
+   "costPen": 542,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "raspberry",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "raspberry_pi4",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 64,
+   "critical": [
+    "A06_budget",
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "L10_action_latency",
+    "S05_no_adc"
+   ],
+   "staticCritical": [
+    "A06_budget",
+    "S05_no_adc"
+   ],
+   "timeInBandPct": 42.3772,
+   "costPen": 772,
+   "energyWhDay": 87.602
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "sin_acondicionamiento",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 92,
+   "critical": [
+    "S06_overrange"
+   ],
+   "staticCritical": [
+    "S06_overrange"
+   ],
+   "timeInBandPct": 100.0,
+   "costPen": 538,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "cargador_usb",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "usb_5v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 75,
+   "critical": [
+    "L01_time_in_band",
+    "L08_alarm_latency",
+    "L10_action_latency",
+    "S04_supply"
+   ],
+   "staticCritical": [
+    "S04_supply"
+   ],
+   "timeInBandPct": 42.3772,
+   "costPen": 462,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "zumbador",
+   "design": {
+    "sensorId": "accel_4_20",
+    "controllerId": "stm32_bluepill",
+    "actuatorId": "buzzer",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": true,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 69,
+   "critical": [
+    "C01_no_effect",
+    "C03_gpio_overcurrent",
+    "L01_time_in_band",
+    "L10_action_latency"
+   ],
+   "staticCritical": [
+    "C01_no_effect",
+    "C03_gpio_overcurrent"
+   ],
+   "timeInBandPct": 42.3772,
+   "costPen": 520,
+   "energyWhDay": 7.8373
+  },
+  {
+   "mission": "vibracion_faja",
+   "label": "adxl345_uno",
+   "design": {
+    "sensorId": "adxl345",
+    "controllerId": "arduino_uno",
+    "actuatorId": "motor_stop_relay",
+    "commId": "rs485",
+    "powerId": "industrial_24v",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "trip",
+     "setpoint": 7.1,
+     "hysteresis": 0,
+     "kp": 0.5,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 1,
+     "reportS": 60,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 89,
+   "critical": [
+    "S07_level_3v3_to_5v"
+   ],
+   "staticCritical": [
+    "S07_level_3v3_to_5v"
+   ],
+   "timeInBandPct": 100.0,
+   "costPen": 193,
+   "energyWhDay": 6.4538
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "reference",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 96.7551,
+   "costPen": 205,
+   "energyWhDay": 923.8376
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "histeresis_estrecha",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 0.4,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 91,
+   "critical": [
+    "C08_switch_rate"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 96.9318,
+   "costPen": 205,
+   "energyWhDay": 923.8376
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "onoff",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 90,
+   "critical": [
+    "C08_switch_rate"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 97.3232,
+   "costPen": 205,
+   "energyWhDay": 920.8921
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "peltier",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "peltier_mosfet",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "proportional",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 0.0,
+   "costPen": 230,
+   "energyWhDay": 1451.7285
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "lm35",
+   "design": {
+    "sensorId": "lm35",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 78,
+   "critical": [
+    "C08_switch_rate",
+    "S02_range"
+   ],
+   "staticCritical": [
+    "S02_range"
+   ],
+   "timeInBandPct": 95.404,
+   "costPen": 201,
+   "energyWhDay": 901.123
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "dht11",
+   "design": {
+    "sensorId": "dht11",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 86,
+   "critical": [
+    "S02_range"
+   ],
+   "staticCritical": [
+    "S02_range"
+   ],
+   "timeInBandPct": 96.7172,
+   "costPen": 200,
+   "energyWhDay": 944.3852
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "dht22",
+   "design": {
+    "sensorId": "dht22",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 98,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 96.7172,
+   "costPen": 215,
+   "energyWhDay": 924.89
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "wifi",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 78,
+   "critical": [
+    "I01_delivery",
+    "K02_infra_missing",
+    "L08_alarm_latency"
+   ],
+   "staticCritical": [
+    "K02_infra_missing"
+   ],
+   "timeInBandPct": 96.654,
+   "costPen": 115,
+   "energyWhDay": 929.323
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "sin_reintento",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": false,
+   "passed": true,
+   "overall": 96,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 96.7551,
+   "costPen": 205,
+   "energyWhDay": 923.8376
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "calefactor",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "heater_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 83,
+   "critical": [
+    "C02_wrong_direction",
+    "L01_time_in_band"
+   ],
+   "staticCritical": [
+    "C02_wrong_direction"
+   ],
+   "timeInBandPct": 0.0,
+   "costPen": 207,
+   "energyWhDay": 962.1285
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "ventilador",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "fan_mosfet",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "nonblocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 88,
+   "critical": [
+    "L01_time_in_band"
+   ],
+   "staticCritical": [],
+   "timeInBandPct": 0.0,
+   "costPen": 200,
+   "energyWhDay": 98.1285
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "bloqueante",
+   "design": {
+    "sensorId": "ds18b20",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "lte_m",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "hysteresis",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "blocking",
+     "lowPower": false,
+     "retry": true
+    }
+   },
+   "robust": true,
+   "passed": true,
+   "overall": 96,
+   "critical": [],
+   "staticCritical": [],
+   "timeInBandPct": 95.7828,
+   "costPen": 205,
+   "energyWhDay": 929.4012
+  },
+  {
+   "mission": "cadena_frio",
+   "label": "principiante",
+   "design": {
+    "sensorId": "dht11",
+    "controllerId": "esp32_devkit",
+    "actuatorId": "compressor_relay",
+    "commId": "wifi_mqtt",
+    "powerId": "adapter_12v_5a",
+    "conditioning": false,
+    "logic": {
+     "algorithm": "onoff",
+     "setpoint": 5.0,
+     "hysteresis": 3.0,
+     "kp": 1.0,
+     "ki": 0.0,
+     "kd": 0.0,
+     "samplingS": 30,
+     "reportS": 300,
+     "firmware": "blocking",
+     "lowPower": false,
+     "retry": false
+    }
+   },
+   "robust": true,
+   "passed": false,
+   "overall": 59,
+   "critical": [
+    "C08_switch_rate",
+    "I01_delivery",
+    "K02_infra_missing",
+    "L08_alarm_latency",
+    "S02_range"
+   ],
+   "staticCritical": [
+    "K02_infra_missing",
+    "S02_range"
+   ],
+   "timeInBandPct": 96.8182,
+   "costPen": 110,
+   "energyWhDay": 915.9978
+  }
+ ]
+}

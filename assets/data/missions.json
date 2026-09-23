@@ -1,0 +1,1871 @@
+{
+  "version": 1,
+  "missions": [
+    {
+      "id": "incubadora",
+      "order": 1,
+      "code": "EB-01",
+      "title": "Incubadora avícola inteligente",
+      "place": "Granja familiar en Majes, Arequipa",
+      "difficulty": "Inicial",
+      "modules": [
+        "arquitectura",
+        "sensores",
+        "actuadores"
+      ],
+      "variable": "temperature",
+      "variableLabel": "Temperatura",
+      "unit": "°C",
+      "decimals": 1,
+      "story": "Una granja familiar incuba 120 huevos por ciclo. Hoy la temperatura se controla con un termostato de perilla y una lámpara, y cada semana se pierden huevos porque la incubadora se enfría de madrugada. La familia quiere un sistema que mantenga la temperatura y le avise al celular si algo falla.",
+      "goal": "Mantener la incubadora entre 37.0 °C y 38.0 °C, reportar la temperatura cada minuto y avisar en menos de 2 minutos si baja de 36.0 °C.",
+      "direction": 1,
+      "band": {
+        "low": 37.0,
+        "high": 38.0,
+        "setpoint": 37.5
+      },
+      "sensorRange": {
+        "min": 10,
+        "max": 50
+      },
+      "alarm": {
+        "threshold": 36.0,
+        "dir": "down",
+        "label": "Temperatura baja"
+      },
+      "plant": {
+        "x0": 30.0,
+        "tauS": 1200,
+        "ambient": 18.0,
+        "ambientAmp": 3.0,
+        "periodS": 86400,
+        "drift": 0.0,
+        "driftAmp": 0.0,
+        "gain": 0.025,
+        "minX": -20,
+        "maxX": 80
+      },
+      "horizonS": 10800,
+      "dtS": 1,
+      "settleS": 1800,
+      "signalFreqHz": 0,
+      "environment": "indoor",
+      "seed": 11,
+      "events": [
+        {
+          "type": "disturbance",
+          "atS": 4500,
+          "durS": 300,
+          "value": -0.02,
+          "label": "Se abre la puerta para revisar los huevos"
+        },
+        {
+          "type": "link_outage",
+          "atS": 7200,
+          "durS": 600,
+          "label": "El router se reinicia durante 10 minutos"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 85,
+        "maxAlarmLatencyS": 120,
+        "maxActionLatencyS": 0,
+        "reportEveryS": 60,
+        "minDeliveryPct": 95,
+        "budgetPen": 250,
+        "mainsAvailable": true,
+        "minAutonomyDays": 0,
+        "remoteAlarm": true,
+        "requiresLatch": false,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 15,
+        "infra": [
+          "router"
+        ],
+        "linkPenalty": {},
+        "description": "Router con internet a 15 m, en la casa. No hay una PC junto a la incubadora."
+      },
+      "pools": {
+        "sensors": [
+          "lm35",
+          "dht11",
+          "dht22",
+          "ds18b20",
+          "ntc_10k",
+          "bme280",
+          "max6675_k"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "heater_relay",
+          "heater_mosfet_ll",
+          "heater_mosfet_std",
+          "heater_gpio",
+          "fan_mosfet",
+          "buzzer"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_1a",
+          "adapter_12v_5a",
+          "liion_1s"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "proportional",
+          "pid"
+        ],
+        "samplingOptions": [
+          1,
+          2,
+          5,
+          10,
+          30,
+          60
+        ],
+        "reportOptions": [
+          10,
+          30,
+          60,
+          300,
+          900
+        ],
+        "maxGoodSamplingS": 30,
+        "setpointMin": 30,
+        "setpointMax": 45,
+        "setpointStep": 0.1,
+        "hystMax": 3.0,
+        "hystStep": 0.1,
+        "kpMax": 3.0,
+        "kpStep": 0.1,
+        "kiMax": 0.01,
+        "kiStep": 0.0005,
+        "kdMax": 60,
+        "kdStep": 5
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 37.5,
+        "hysteresis": 0.0,
+        "kp": 1.0,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 10,
+        "reportS": 60,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "La banda permitida mide solo 1 °C: la exactitud del sensor debería ser bastante menor que 0.5 °C.",
+        "La resistencia calefactora funciona con 12 V y 3.3 A. Revisa qué fuente y qué etapa de potencia pueden entregar eso.",
+        "Cuando el router se reinicia, ¿qué pasa con los mensajes que el sistema intenta enviar?"
+      ],
+      "lessonIds": [
+        "arq_bloques",
+        "sen_exactitud",
+        "act_etapas_potencia",
+        "iot_qos"
+      ],
+      "referenceDesign": {
+        "sensorId": "ds18b20",
+        "controllerId": "esp32_devkit",
+        "actuatorId": "heater_mosfet_ll",
+        "commId": "wifi_mqtt",
+        "powerId": "adapter_12v_5a",
+        "conditioning": false,
+        "logic": {
+          "algorithm": "pid",
+          "setpoint": 37.5,
+          "hysteresis": 0.0,
+          "kp": 1.5,
+          "ki": 0.002,
+          "kd": 0,
+          "samplingS": 5,
+          "reportS": 60,
+          "firmware": "nonblocking",
+          "lowPower": false,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "principiante_dht11_rele",
+          "design": {
+            "sensorId": "dht11",
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "onoff",
+              "samplingS": 2,
+              "firmware": "blocking",
+              "retry": false
+            }
+          }
+        },
+        {
+          "label": "lm35_en_raspberry",
+          "design": {
+            "sensorId": "lm35",
+            "controllerId": "raspberry_pi4",
+            "powerId": "adapter_12v_5a"
+          }
+        },
+        {
+          "label": "ventilador",
+          "design": {
+            "actuatorId": "fan_mosfet"
+          }
+        },
+        {
+          "label": "calefactor_gpio",
+          "design": {
+            "actuatorId": "heater_gpio"
+          }
+        },
+        {
+          "label": "fuente_1a",
+          "design": {
+            "powerId": "adapter_12v_1a"
+          }
+        },
+        {
+          "label": "cargador_usb",
+          "design": {
+            "powerId": "usb_5v"
+          }
+        },
+        {
+          "label": "rele_pid",
+          "design": {
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "pid",
+              "kp": 1.5,
+              "ki": 0.002
+            }
+          }
+        },
+        {
+          "label": "bme280_en_uno",
+          "design": {
+            "sensorId": "bme280",
+            "controllerId": "arduino_uno"
+          }
+        },
+        {
+          "label": "sin_reintento",
+          "design": {
+            "logic": {
+              "retry": false
+            }
+          }
+        },
+        {
+          "label": "ble",
+          "design": {
+            "commId": "ble"
+          }
+        },
+        {
+          "label": "irf540n",
+          "design": {
+            "actuatorId": "heater_mosfet_std"
+          }
+        },
+        {
+          "label": "pid",
+          "design": {
+            "logic": {
+              "algorithm": "pid",
+              "kp": 1.5,
+              "ki": 0.002,
+              "kd": 0
+            }
+          }
+        },
+        {
+          "label": "rele_histeresis",
+          "design": {
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "hysteresis",
+              "hysteresis": 0.4
+            }
+          }
+        },
+        {
+          "label": "lm35_en_uno",
+          "design": {
+            "sensorId": "lm35",
+            "controllerId": "arduino_uno"
+          }
+        },
+        {
+          "label": "dht22",
+          "design": {
+            "sensorId": "dht22",
+            "logic": {
+              "samplingS": 5
+            }
+          }
+        },
+        {
+          "label": "proporcional",
+          "design": {
+            "logic": {
+              "algorithm": "proportional",
+              "kp": 2.0
+            }
+          }
+        },
+        {
+          "label": "muestreo_60s",
+          "design": {
+            "logic": {
+              "samplingS": 60
+            }
+          }
+        },
+        {
+          "label": "onoff_simple",
+          "design": {
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "rele_hist_02_sp376",
+          "design": {
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "hysteresis",
+              "setpoint": 37.6,
+              "hysteresis": 0.2,
+              "samplingS": 2
+            }
+          }
+        },
+        {
+          "label": "rele_hist_02",
+          "design": {
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "hysteresis",
+              "setpoint": 37.5,
+              "hysteresis": 0.2,
+              "samplingS": 5
+            }
+          }
+        },
+        {
+          "label": "mosfet_hist_03",
+          "design": {
+            "logic": {
+              "algorithm": "hysteresis",
+              "hysteresis": 0.3
+            }
+          }
+        },
+        {
+          "label": "rele_onoff_5s",
+          "design": {
+            "actuatorId": "heater_relay",
+            "logic": {
+              "algorithm": "onoff",
+              "samplingS": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "aula_co2",
+      "order": 2,
+      "code": "EB-02",
+      "title": "Aire saludable en el aula",
+      "place": "Pabellón de ingeniería, universidad en Huancayo",
+      "difficulty": "Inicial",
+      "modules": [
+        "sensores",
+        "actuadores",
+        "iot"
+      ],
+      "variable": "co2",
+      "variableLabel": "CO₂",
+      "unit": "ppm",
+      "decimals": 0,
+      "story": "En un aula de 200 m³ con 40 estudiantes y las ventanas cerradas por el frío, el CO₂ supera las 2000 ppm a media mañana. Con esa concentración cuesta concentrarse y aumenta el riesgo de contagio. La facultad quiere un sistema que active la ventilación solo cuando haga falta y avise al docente si el aire se vuelve peligroso.",
+      "goal": "Mantener el CO₂ por debajo de 1000 ppm, publicar la medición cada minuto en el panel de la facultad y avisar al docente en menos de 3 minutos si supera 1200 ppm.",
+      "direction": -1,
+      "band": {
+        "low": 400,
+        "high": 1000,
+        "setpoint": 800
+      },
+      "sensorRange": {
+        "min": 400,
+        "max": 2000
+      },
+      "alarm": {
+        "threshold": 1200,
+        "dir": "up",
+        "label": "CO₂ peligroso"
+      },
+      "plant": {
+        "x0": 450,
+        "tauS": 3600,
+        "ambient": 420,
+        "ambientAmp": 0,
+        "periodS": 86400,
+        "drift": 0.0,
+        "driftAmp": 0.0,
+        "gain": 1.3,
+        "minX": 400,
+        "maxX": 5000
+      },
+      "horizonS": 10800,
+      "dtS": 2,
+      "settleS": 900,
+      "signalFreqHz": 0,
+      "environment": "indoor",
+      "seed": 23,
+      "events": [
+        {
+          "type": "disturbance",
+          "atS": 600,
+          "durS": 5400,
+          "value": 1.0,
+          "label": "Clase con 40 estudiantes"
+        },
+        {
+          "type": "disturbance",
+          "atS": 3600,
+          "durS": 1200,
+          "value": 0.9,
+          "label": "Examen: llegan 35 estudiantes más"
+        },
+        {
+          "type": "disturbance",
+          "atS": 6600,
+          "durS": 3600,
+          "value": 0.8,
+          "label": "Segunda clase con 32 estudiantes"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 75,
+        "maxAlarmLatencyS": 180,
+        "maxActionLatencyS": 0,
+        "reportEveryS": 60,
+        "minDeliveryPct": 95,
+        "budgetPen": 300,
+        "mainsAvailable": true,
+        "minAutonomyDays": 0,
+        "remoteAlarm": true,
+        "requiresLatch": false,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 20,
+        "infra": [
+          "router"
+        ],
+        "linkPenalty": {},
+        "description": "Red Wi-Fi del campus con un punto de acceso en el pasillo, a 20 m."
+      },
+      "pools": {
+        "sensors": [
+          "scd40",
+          "mhz19b",
+          "mq135",
+          "ccs811",
+          "dht22"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "extractor_mosfet",
+          "extractor_relay",
+          "fan_mosfet",
+          "window_servo",
+          "buzzer"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_1a",
+          "adapter_12v_5a"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "proportional",
+          "pid"
+        ],
+        "samplingOptions": [
+          5,
+          10,
+          30,
+          60,
+          120
+        ],
+        "reportOptions": [
+          10,
+          30,
+          60,
+          300,
+          900
+        ],
+        "maxGoodSamplingS": 60,
+        "setpointMin": 400,
+        "setpointMax": 1500,
+        "setpointStep": 10,
+        "hystMax": 400,
+        "hystStep": 10,
+        "kpMax": 0.02,
+        "kpStep": 0.001,
+        "kiMax": 0.0001,
+        "kiStep": 1e-05,
+        "kdMax": 1.0,
+        "kdStep": 0.1
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 800,
+        "hysteresis": 0,
+        "kp": 0.005,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 30,
+        "reportS": 60,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "Varios sensores baratos dicen medir «calidad del aire». Revisa qué magnitud mide cada uno en realidad.",
+        "Un aula llena genera CO₂ más rápido de lo que un ventilador de gabinete puede extraer.",
+        "Si el extractor puede variar su velocidad, un control proporcional evita arranques bruscos y ruido."
+      ],
+      "lessonIds": [
+        "sen_magnitud",
+        "act_dimensionamiento",
+        "ctl_proporcional",
+        "iot_mqtt"
+      ],
+      "referenceDesign": {
+        "sensorId": "scd40",
+        "controllerId": "esp32_devkit",
+        "actuatorId": "extractor_mosfet",
+        "commId": "wifi_mqtt",
+        "powerId": "adapter_12v_5a",
+        "conditioning": false,
+        "logic": {
+          "algorithm": "proportional",
+          "setpoint": 700,
+          "hysteresis": 0,
+          "kp": 0.005,
+          "ki": 0.0,
+          "kd": 0.0,
+          "samplingS": 10,
+          "reportS": 60,
+          "firmware": "nonblocking",
+          "lowPower": false,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "mq135",
+          "design": {
+            "sensorId": "mq135"
+          }
+        },
+        {
+          "label": "ccs811",
+          "design": {
+            "sensorId": "ccs811"
+          }
+        },
+        {
+          "label": "dht22_no_mide_co2",
+          "design": {
+            "sensorId": "dht22"
+          }
+        },
+        {
+          "label": "ventilador_chico",
+          "design": {
+            "actuatorId": "fan_mosfet"
+          }
+        },
+        {
+          "label": "ventanilla_servo",
+          "design": {
+            "actuatorId": "window_servo"
+          }
+        },
+        {
+          "label": "extractor_rele_onoff",
+          "design": {
+            "actuatorId": "extractor_relay",
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "extractor_rele_histeresis",
+          "design": {
+            "actuatorId": "extractor_relay",
+            "logic": {
+              "algorithm": "hysteresis",
+              "setpoint": 750,
+              "hysteresis": 150
+            }
+          }
+        },
+        {
+          "label": "mhz19b_en_uno",
+          "design": {
+            "sensorId": "mhz19b",
+            "controllerId": "arduino_uno"
+          }
+        },
+        {
+          "label": "mhz19b_en_esp32",
+          "design": {
+            "sensorId": "mhz19b"
+          }
+        },
+        {
+          "label": "cargador_usb",
+          "design": {
+            "powerId": "usb_5v"
+          }
+        },
+        {
+          "label": "principiante",
+          "design": {
+            "logic": {
+              "algorithm": "onoff",
+              "setpoint": 800,
+              "samplingS": 30,
+              "firmware": "blocking",
+              "retry": false
+            }
+          }
+        },
+        {
+          "label": "pid",
+          "design": {
+            "logic": {
+              "algorithm": "pid",
+              "kp": 0.006,
+              "ki": 1e-05
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tanque_edificio",
+      "order": 3,
+      "code": "EB-03",
+      "title": "Tanque elevado sin rebalses",
+      "place": "Edificio multifamiliar de 8 pisos en Miraflores, Lima",
+      "difficulty": "Intermedio",
+      "modules": [
+        "sensores",
+        "comunicacion",
+        "iot"
+      ],
+      "variable": "level",
+      "variableLabel": "Nivel",
+      "unit": "%",
+      "decimals": 0,
+      "story": "El tanque elevado de 2 m de altura abastece a 32 departamentos. Un flotador mecánico controla la bomba, pero se atasca: el mes pasado el tanque rebalsó durante horas y el agua dañó el techo. La junta de propietarios quiere controlar la bomba electrónicamente y recibir una alerta si el tanque está por rebalsar.",
+      "goal": "Mantener el nivel entre 55 % y 85 %, reportarlo cada 5 minutos al administrador y alertar en menos de 5 minutos si supera el 92 %.",
+      "direction": 1,
+      "band": {
+        "low": 55,
+        "high": 85,
+        "setpoint": 70
+      },
+      "sensorRange": {
+        "min": 10,
+        "max": 95
+      },
+      "alarm": {
+        "threshold": 92,
+        "dir": "up",
+        "label": "Riesgo de rebalse"
+      },
+      "plant": {
+        "x0": 60,
+        "tauS": 0,
+        "ambient": 0,
+        "ambientAmp": 0,
+        "periodS": 86400,
+        "drift": -0.006,
+        "driftAmp": 0.0,
+        "gain": 0.03,
+        "minX": 0,
+        "maxX": 100
+      },
+      "horizonS": 21600,
+      "dtS": 2,
+      "settleS": 1200,
+      "signalFreqHz": 0,
+      "environment": "humid",
+      "seed": 37,
+      "events": [
+        {
+          "type": "disturbance",
+          "atS": 3600,
+          "durS": 3600,
+          "value": -0.008,
+          "label": "Hora punta: duchas de la mañana"
+        },
+        {
+          "type": "disturbance",
+          "atS": 14400,
+          "durS": 1500,
+          "value": 0.03,
+          "label": "Se atasca la válvula de la red pública y entra agua sin control"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 75,
+        "maxAlarmLatencyS": 300,
+        "maxActionLatencyS": 0,
+        "reportEveryS": 300,
+        "minDeliveryPct": 90,
+        "budgetPen": 350,
+        "mainsAvailable": true,
+        "minAutonomyDays": 0,
+        "remoteAlarm": true,
+        "requiresLatch": false,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 25,
+        "infra": [
+          "router",
+          "coverage"
+        ],
+        "linkPenalty": {
+          "wifi": 0.35,
+          "ble": 0.3
+        },
+        "description": "El router está en la conserjería, 25 m más abajo y con tres losas de concreto de por medio. Hay buena cobertura celular en la azotea."
+      },
+      "pools": {
+        "sensors": [
+          "hcsr04",
+          "jsnsr04t",
+          "pressure_level",
+          "soil_capacitive"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "pump_relay",
+          "pump_mosfet",
+          "pump_gpio",
+          "buzzer"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_1a",
+          "adapter_12v_5a"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "proportional",
+          "pid"
+        ],
+        "samplingOptions": [
+          1,
+          5,
+          10,
+          30,
+          60,
+          300
+        ],
+        "reportOptions": [
+          60,
+          300,
+          900,
+          1800
+        ],
+        "maxGoodSamplingS": 60,
+        "setpointMin": 20,
+        "setpointMax": 100,
+        "setpointStep": 1,
+        "hystMax": 40,
+        "hystStep": 1,
+        "kpMax": 0.5,
+        "kpStep": 0.01,
+        "kiMax": 0.001,
+        "kiStep": 0.0001,
+        "kdMax": 5,
+        "kdStep": 0.5
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 70,
+        "hysteresis": 0,
+        "kp": 0.1,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 10,
+        "reportS": 300,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "El interior de un tanque es húmedo: la condensación arruina los módulos que no están sellados.",
+        "La alarma se dispara al 92 %. Comprueba que tu sensor pueda ver ese nivel: algunos tienen zona ciega.",
+        "Tres losas de concreto atenúan mucho el Wi-Fi. Si eliges Wi-Fi, ¿cómo evitas perder mensajes?"
+      ],
+      "lessonIds": [
+        "sen_rango",
+        "sen_niveles_logicos",
+        "com_alcance",
+        "iot_qos"
+      ],
+      "referenceDesign": {
+        "sensorId": "pressure_level",
+        "controllerId": "esp32_devkit",
+        "actuatorId": "pump_relay",
+        "commId": "lte_m",
+        "powerId": "adapter_12v_5a",
+        "conditioning": true,
+        "logic": {
+          "algorithm": "hysteresis",
+          "setpoint": 70,
+          "hysteresis": 16,
+          "kp": 0.1,
+          "ki": 0.0,
+          "kd": 0.0,
+          "samplingS": 10,
+          "reportS": 300,
+          "firmware": "nonblocking",
+          "lowPower": false,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "hcsr04_esp32_sin_adaptador",
+          "design": {
+            "sensorId": "hcsr04",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "hcsr04_esp32_con_adaptador",
+          "design": {
+            "sensorId": "hcsr04",
+            "conditioning": true
+          }
+        },
+        {
+          "label": "jsn_zona_ciega",
+          "design": {
+            "sensorId": "jsnsr04t",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "presion_sin_divisor",
+          "design": {
+            "conditioning": false
+          }
+        },
+        {
+          "label": "presion_en_uno",
+          "design": {
+            "controllerId": "arduino_uno",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "wifi_sin_reintento",
+          "design": {
+            "commId": "wifi_mqtt",
+            "logic": {
+              "retry": false
+            }
+          }
+        },
+        {
+          "label": "wifi_con_reintento",
+          "design": {
+            "commId": "wifi_mqtt",
+            "logic": {
+              "retry": true
+            }
+          }
+        },
+        {
+          "label": "onoff_rele",
+          "design": {
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "bomba_gpio",
+          "design": {
+            "actuatorId": "pump_gpio"
+          }
+        },
+        {
+          "label": "principiante",
+          "design": {
+            "sensorId": "hcsr04",
+            "commId": "wifi_mqtt",
+            "conditioning": false,
+            "logic": {
+              "algorithm": "onoff",
+              "firmware": "blocking",
+              "retry": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "riego_vivero",
+      "order": 4,
+      "code": "EB-04",
+      "title": "Riego autónomo en el vivero",
+      "place": "Vivero de paltos en Huaral, Lima",
+      "difficulty": "Intermedio",
+      "modules": [
+        "arquitectura",
+        "comunicacion",
+        "iot"
+      ],
+      "variable": "soil_moisture",
+      "variableLabel": "Humedad de suelo",
+      "unit": "%",
+      "decimals": 0,
+      "story": "Un vivero produce plantones de palto a 1.2 km de la oficina de la cooperativa, donde hay un gateway LoRaWAN. En el campo no hay red eléctrica ni Wi-Fi. Hoy un operario riega a ojo y, en las semanas de calor, los plantones se estresan. El equipo debe funcionar solo durante semanas y avisar si el agua deja de llegar.",
+      "goal": "Mantener la humedad del suelo entre 35 % y 45 %, reportar cada 15 minutos, alertar en menos de 30 minutos si baja de 30 % y resistir al menos 5 días nublados con la batería.",
+      "direction": 1,
+      "band": {
+        "low": 35,
+        "high": 45,
+        "setpoint": 40
+      },
+      "sensorRange": {
+        "min": 10,
+        "max": 60
+      },
+      "alarm": {
+        "threshold": 30,
+        "dir": "down",
+        "label": "Suelo demasiado seco"
+      },
+      "plant": {
+        "x0": 34,
+        "tauS": 0,
+        "ambient": 0,
+        "ambientAmp": 0,
+        "periodS": 86400,
+        "drift": -0.0004,
+        "driftAmp": 0.8,
+        "gain": 0.02,
+        "minX": 0,
+        "maxX": 100
+      },
+      "horizonS": 172800,
+      "dtS": 10,
+      "settleS": 3600,
+      "signalFreqHz": 0,
+      "environment": "outdoor",
+      "seed": 41,
+      "events": [
+        {
+          "type": "actuator_outage",
+          "atS": 108000,
+          "durS": 28800,
+          "label": "Se corta el agua del canal de regadío durante 8 horas"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 75,
+        "maxAlarmLatencyS": 1800,
+        "maxActionLatencyS": 0,
+        "reportEveryS": 900,
+        "minDeliveryPct": 90,
+        "budgetPen": 450,
+        "mainsAvailable": false,
+        "minAutonomyDays": 5,
+        "remoteAlarm": true,
+        "requiresLatch": false,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 1200,
+        "infra": [
+          "gateway",
+          "coverage"
+        ],
+        "linkPenalty": {},
+        "description": "Gateway LoRaWAN en la oficina, a 1.2 km en línea de vista. Hay cobertura celular débil. Sin red eléctrica en el campo."
+      },
+      "pools": {
+        "sensors": [
+          "soil_capacitive",
+          "soil_resistive",
+          "dht22",
+          "dht11"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "pump_relay",
+          "pump_mosfet",
+          "pump_gpio",
+          "valve_relay"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_5a",
+          "liion_1s",
+          "solar_12v"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "proportional",
+          "pid"
+        ],
+        "samplingOptions": [
+          10,
+          60,
+          300,
+          900,
+          1800
+        ],
+        "reportOptions": [
+          60,
+          300,
+          900,
+          1800,
+          3600
+        ],
+        "maxGoodSamplingS": 900,
+        "setpointMin": 10,
+        "setpointMax": 70,
+        "setpointStep": 1,
+        "hystMax": 20,
+        "hystStep": 1,
+        "kpMax": 1.0,
+        "kpStep": 0.05,
+        "kiMax": 0.0005,
+        "kiStep": 5e-05,
+        "kdMax": 50,
+        "kdStep": 5
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 40,
+        "hysteresis": 0,
+        "kp": 0.2,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 60,
+        "reportS": 300,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "La autonomía se calcula sin sol: suma lo que consume cada bloque durante un día.",
+        "Bombear agua cuesta energía; dejarla caer desde un tanque elevado, casi nada.",
+        "LoRaWAN llega lejos, pero limita cuántos mensajes puedes enviar por día."
+      ],
+      "lessonIds": [
+        "arq_energia",
+        "arq_bajo_consumo",
+        "com_lora",
+        "sen_corrosion"
+      ],
+      "referenceDesign": {
+        "sensorId": "soil_capacitive",
+        "controllerId": "pico_w",
+        "actuatorId": "valve_relay",
+        "commId": "lora",
+        "powerId": "solar_12v",
+        "conditioning": false,
+        "logic": {
+          "algorithm": "hysteresis",
+          "setpoint": 40,
+          "hysteresis": 4,
+          "kp": 0.2,
+          "ki": 0.0,
+          "kd": 0.0,
+          "samplingS": 300,
+          "reportS": 900,
+          "firmware": "nonblocking",
+          "lowPower": true,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "bomba_sin_bajo_consumo",
+          "design": {
+            "actuatorId": "pump_relay",
+            "logic": {
+              "lowPower": false
+            }
+          }
+        },
+        {
+          "label": "bomba_con_bajo_consumo",
+          "design": {
+            "actuatorId": "pump_relay",
+            "logic": {
+              "lowPower": true
+            }
+          }
+        },
+        {
+          "label": "valvula_sin_bajo_consumo",
+          "design": {
+            "logic": {
+              "lowPower": false
+            }
+          }
+        },
+        {
+          "label": "raspberry",
+          "design": {
+            "controllerId": "raspberry_pi4",
+            "sensorId": "soil_capacitive"
+          }
+        },
+        {
+          "label": "wifi",
+          "design": {
+            "commId": "wifi_mqtt"
+          }
+        },
+        {
+          "label": "lora_cada_5min",
+          "design": {
+            "logic": {
+              "reportS": 300
+            }
+          }
+        },
+        {
+          "label": "lte",
+          "design": {
+            "commId": "lte_m"
+          }
+        },
+        {
+          "label": "resistivo",
+          "design": {
+            "sensorId": "soil_resistive"
+          }
+        },
+        {
+          "label": "dht22_humedad_aire",
+          "design": {
+            "sensorId": "dht22"
+          }
+        },
+        {
+          "label": "cargador_usb_red",
+          "design": {
+            "powerId": "usb_5v"
+          }
+        },
+        {
+          "label": "bateria_liion",
+          "design": {
+            "powerId": "liion_1s"
+          }
+        },
+        {
+          "label": "onoff",
+          "design": {
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "uno_bajo_consumo",
+          "design": {
+            "controllerId": "arduino_uno",
+            "logic": {
+              "lowPower": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "vibracion_faja",
+      "order": 5,
+      "code": "EB-05",
+      "title": "Parada segura de una faja transportadora",
+      "place": "Planta concentradora, unidad minera en Pasco",
+      "difficulty": "Avanzado",
+      "modules": [
+        "sensores",
+        "comunicacion",
+        "arquitectura"
+      ],
+      "variable": "vibration",
+      "variableLabel": "Vibración RMS",
+      "unit": "mm/s",
+      "decimals": 1,
+      "story": "El motor de 30 kW de una faja transportadora de mineral falló el año pasado por un rodamiento dañado: la reparación y la parada no programada costaron dos días de producción. El área de mantenimiento quiere detectar la vibración anormal, detener el motor antes de que el daño avance y registrar el evento en el sistema SCADA de la sala de control.",
+      "goal": "Detener el motor en menos de 10 s cuando la vibración supere 7.1 mm/s (límite de zona D de la norma ISO 10816), mantenerlo detenido hasta que un técnico lo revise y avisar al SCADA en menos de 30 s.",
+      "direction": -1,
+      "band": {
+        "low": 0,
+        "high": 7.1,
+        "setpoint": 7.1
+      },
+      "sensorRange": {
+        "min": 0,
+        "max": 20
+      },
+      "alarm": {
+        "threshold": 7.1,
+        "dir": "up",
+        "label": "Vibración en zona D"
+      },
+      "plant": {
+        "x0": 1.8,
+        "tauS": 5,
+        "ambient": 1.8,
+        "ambientAmp": 0,
+        "periodS": 86400,
+        "drift": 0.0,
+        "driftAmp": 0.0,
+        "gain": 2.0,
+        "minX": 0,
+        "maxX": 50
+      },
+      "horizonS": 1200,
+      "dtS": 0.1,
+      "settleS": 60,
+      "signalFreqHz": 400,
+      "environment": "industrial",
+      "seed": 53,
+      "events": [
+        {
+          "type": "ambient_step",
+          "atS": 480,
+          "durS": 720,
+          "value": 8.2,
+          "rampS": 90,
+          "label": "Se degrada el rodamiento del lado acoplado (defecto a 400 Hz)"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 95,
+        "maxAlarmLatencyS": 30,
+        "maxActionLatencyS": 10,
+        "reportEveryS": 60,
+        "minDeliveryPct": 95,
+        "budgetPen": 600,
+        "mainsAvailable": true,
+        "minAutonomyDays": 0,
+        "remoteAlarm": true,
+        "requiresLatch": true,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 150,
+        "infra": [
+          "cable"
+        ],
+        "linkPenalty": {
+          "wifi": 0.3,
+          "ble": 0.3
+        },
+        "description": "La sala de control está a 150 m. Hay canaletas para tender cable hasta el PLC. No hay Wi-Fi industrial ni cobertura celular en el túnel de la faja."
+      },
+      "pools": {
+        "sensors": [
+          "mpu6050",
+          "adxl345",
+          "accel_4_20",
+          "sw420"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "motor_stop_relay",
+          "buzzer"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_5a",
+          "industrial_24v"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "trip"
+        ],
+        "samplingOptions": [
+          0.5,
+          1,
+          2,
+          5,
+          10,
+          30
+        ],
+        "reportOptions": [
+          10,
+          30,
+          60,
+          300
+        ],
+        "maxGoodSamplingS": 2,
+        "setpointMin": 2.0,
+        "setpointMax": 15.0,
+        "setpointStep": 0.1,
+        "hystMax": 5.0,
+        "hystStep": 0.1,
+        "kpMax": 1.0,
+        "kpStep": 0.1,
+        "kiMax": 0.01,
+        "kiStep": 0.001,
+        "kdMax": 1.0,
+        "kdStep": 0.1
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 7.1,
+        "hysteresis": 0,
+        "kp": 0.5,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 5,
+        "reportS": 60,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "El defecto del rodamiento vibra a 400 Hz. Compara esa frecuencia con el ancho de banda de cada acelerómetro.",
+        "Una parada de seguridad no debe volver a arrancar el motor sola cuando la vibración baja.",
+        "En planta, las radios sufren con el ruido eléctrico y las estructuras metálicas."
+      ],
+      "lessonIds": [
+        "sen_ancho_banda",
+        "ctl_enclavamiento",
+        "com_industrial",
+        "arq_tiempo_real"
+      ],
+      "referenceDesign": {
+        "sensorId": "accel_4_20",
+        "controllerId": "stm32_bluepill",
+        "actuatorId": "motor_stop_relay",
+        "commId": "rs485",
+        "powerId": "industrial_24v",
+        "conditioning": true,
+        "logic": {
+          "algorithm": "trip",
+          "setpoint": 7.1,
+          "hysteresis": 0,
+          "kp": 0.5,
+          "ki": 0.0,
+          "kd": 0.0,
+          "samplingS": 1,
+          "reportS": 60,
+          "firmware": "nonblocking",
+          "lowPower": false,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "mpu6050_esp32",
+          "design": {
+            "sensorId": "mpu6050",
+            "controllerId": "esp32_devkit",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "adxl345_esp32",
+          "design": {
+            "sensorId": "adxl345",
+            "controllerId": "esp32_devkit",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "sw420",
+          "design": {
+            "sensorId": "sw420",
+            "conditioning": false
+          }
+        },
+        {
+          "label": "sin_enclavamiento",
+          "design": {
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "wifi",
+          "design": {
+            "commId": "wifi_mqtt"
+          }
+        },
+        {
+          "label": "muestreo_30s",
+          "design": {
+            "logic": {
+              "samplingS": 30
+            }
+          }
+        },
+        {
+          "label": "raspberry",
+          "design": {
+            "controllerId": "raspberry_pi4",
+            "conditioning": true
+          }
+        },
+        {
+          "label": "sin_acondicionamiento",
+          "design": {
+            "conditioning": false
+          }
+        },
+        {
+          "label": "cargador_usb",
+          "design": {
+            "powerId": "usb_5v"
+          }
+        },
+        {
+          "label": "zumbador",
+          "design": {
+            "actuatorId": "buzzer"
+          }
+        },
+        {
+          "label": "adxl345_uno",
+          "design": {
+            "sensorId": "adxl345",
+            "controllerId": "arduino_uno",
+            "conditioning": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "cadena_frio",
+      "order": 6,
+      "code": "EB-06",
+      "title": "Cadena de frío para vacunas",
+      "place": "Puesto de salud rural en Ocongate, Cusco",
+      "difficulty": "Avanzado",
+      "modules": [
+        "arquitectura",
+        "sensores",
+        "actuadores",
+        "comunicacion",
+        "iot"
+      ],
+      "variable": "temperature",
+      "variableLabel": "Temperatura",
+      "unit": "°C",
+      "decimals": 1,
+      "story": "El puesto de salud guarda vacunas que deben conservarse entre 2 °C y 8 °C. El termostato del refrigerador está descalibrado y nadie revisa la temperatura de noche. Si una vacuna se congela o se calienta, pierde eficacia sin que se note. No hay internet fijo, pero sí cobertura celular. Este es el proyecto integrador: aplica todo lo que aprendiste.",
+      "goal": "Mantener el refrigerador entre 2 °C y 8 °C, registrar la temperatura cada 5 minutos y enviar una alerta en menos de 2 minutos si supera 8 °C, sin dañar el compresor.",
+      "direction": -1,
+      "band": {
+        "low": 2.0,
+        "high": 8.0,
+        "setpoint": 5.0
+      },
+      "sensorRange": {
+        "min": -10,
+        "max": 30
+      },
+      "alarm": {
+        "threshold": 8.0,
+        "dir": "up",
+        "label": "Vacunas fuera de rango"
+      },
+      "plant": {
+        "x0": 12.0,
+        "tauS": 3600,
+        "ambient": 18.0,
+        "ambientAmp": 6.0,
+        "periodS": 86400,
+        "drift": 0.0,
+        "driftAmp": 0.0,
+        "gain": 0.007,
+        "minX": -30,
+        "maxX": 40
+      },
+      "horizonS": 43200,
+      "dtS": 5,
+      "settleS": 3600,
+      "signalFreqHz": 0,
+      "environment": "indoor",
+      "seed": 67,
+      "events": [
+        {
+          "type": "disturbance",
+          "atS": 18000,
+          "durS": 900,
+          "value": 0.008,
+          "label": "La puerta queda mal cerrada durante 15 minutos"
+        },
+        {
+          "type": "link_outage",
+          "atS": 30000,
+          "durS": 1800,
+          "label": "Se cae la red celular durante 30 minutos"
+        }
+      ],
+      "requirements": {
+        "minTimeInBandPct": 90,
+        "maxAlarmLatencyS": 120,
+        "maxActionLatencyS": 0,
+        "reportEveryS": 300,
+        "minDeliveryPct": 95,
+        "budgetPen": 400,
+        "mainsAvailable": true,
+        "minAutonomyDays": 0,
+        "remoteAlarm": true,
+        "requiresLatch": false,
+        "needsLinux": false
+      },
+      "site": {
+        "distanceM": 0,
+        "infra": [
+          "coverage"
+        ],
+        "linkPenalty": {},
+        "description": "Sin internet fijo ni Wi-Fi. Cobertura celular 4G en el puesto. El personal no está de noche."
+      },
+      "pools": {
+        "sensors": [
+          "ds18b20",
+          "dht22",
+          "dht11",
+          "lm35",
+          "ntc_10k",
+          "bme280"
+        ],
+        "controllers": [
+          "arduino_uno",
+          "esp32_devkit",
+          "esp8266_nodemcu",
+          "pico_w",
+          "stm32_bluepill",
+          "raspberry_pi4"
+        ],
+        "actuators": [
+          "compressor_relay",
+          "peltier_mosfet",
+          "fan_mosfet",
+          "heater_relay"
+        ],
+        "comms": [
+          "none",
+          "usb_serial",
+          "wifi_mqtt",
+          "ble",
+          "lora",
+          "lte_m",
+          "rs485"
+        ],
+        "power": [
+          "usb_5v",
+          "adapter_12v_1a",
+          "adapter_12v_5a",
+          "solar_12v"
+        ]
+      },
+      "logic": {
+        "algorithms": [
+          "onoff",
+          "hysteresis",
+          "proportional",
+          "pid"
+        ],
+        "samplingOptions": [
+          5,
+          10,
+          30,
+          60,
+          300
+        ],
+        "reportOptions": [
+          60,
+          300,
+          900,
+          1800
+        ],
+        "maxGoodSamplingS": 60,
+        "setpointMin": -5,
+        "setpointMax": 15,
+        "setpointStep": 0.1,
+        "hystMax": 6.0,
+        "hystStep": 0.1,
+        "kpMax": 3.0,
+        "kpStep": 0.1,
+        "kiMax": 0.005,
+        "kiStep": 0.0005,
+        "kdMax": 60,
+        "kdStep": 5
+      },
+      "defaultLogic": {
+        "algorithm": "onoff",
+        "setpoint": 5.0,
+        "hysteresis": 0,
+        "kp": 1.0,
+        "ki": 0.0,
+        "kd": 0.0,
+        "samplingS": 30,
+        "reportS": 300,
+        "firmware": "blocking",
+        "lowPower": false,
+        "retry": false
+      },
+      "hints": [
+        "Un compresor que arranca y para cada pocos minutos se daña. ¿Qué parámetro de la lógica espacia los arranques?",
+        "El sensor debe poder ver una congelación: revisa el límite inferior de su rango.",
+        "Sin internet fijo, solo una tecnología llega desde el puesto hasta el celular del responsable."
+      ],
+      "lessonIds": [
+        "ctl_histeresis",
+        "act_limites_ciclo",
+        "sen_rango",
+        "com_celular"
+      ],
+      "referenceDesign": {
+        "sensorId": "ds18b20",
+        "controllerId": "esp32_devkit",
+        "actuatorId": "compressor_relay",
+        "commId": "lte_m",
+        "powerId": "adapter_12v_5a",
+        "conditioning": false,
+        "logic": {
+          "algorithm": "hysteresis",
+          "setpoint": 5.0,
+          "hysteresis": 3.0,
+          "kp": 1.0,
+          "ki": 0.0,
+          "kd": 0.0,
+          "samplingS": 30,
+          "reportS": 300,
+          "firmware": "nonblocking",
+          "lowPower": false,
+          "retry": true
+        }
+      },
+      "calibration": [
+        {
+          "label": "histeresis_estrecha",
+          "design": {
+            "logic": {
+              "hysteresis": 0.4
+            }
+          }
+        },
+        {
+          "label": "onoff",
+          "design": {
+            "logic": {
+              "algorithm": "onoff"
+            }
+          }
+        },
+        {
+          "label": "peltier",
+          "design": {
+            "actuatorId": "peltier_mosfet",
+            "logic": {
+              "algorithm": "proportional",
+              "kp": 1.0
+            }
+          }
+        },
+        {
+          "label": "lm35",
+          "design": {
+            "sensorId": "lm35"
+          }
+        },
+        {
+          "label": "dht11",
+          "design": {
+            "sensorId": "dht11"
+          }
+        },
+        {
+          "label": "dht22",
+          "design": {
+            "sensorId": "dht22"
+          }
+        },
+        {
+          "label": "wifi",
+          "design": {
+            "commId": "wifi_mqtt"
+          }
+        },
+        {
+          "label": "sin_reintento",
+          "design": {
+            "logic": {
+              "retry": false
+            }
+          }
+        },
+        {
+          "label": "calefactor",
+          "design": {
+            "actuatorId": "heater_relay"
+          }
+        },
+        {
+          "label": "ventilador",
+          "design": {
+            "actuatorId": "fan_mosfet"
+          }
+        },
+        {
+          "label": "bloqueante",
+          "design": {
+            "logic": {
+              "firmware": "blocking"
+            }
+          }
+        },
+        {
+          "label": "principiante",
+          "design": {
+            "sensorId": "dht11",
+            "commId": "wifi_mqtt",
+            "logic": {
+              "algorithm": "onoff",
+              "firmware": "blocking",
+              "retry": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,607 @@
+{
+  "version": 1,
+  "modules": [
+    {
+      "id": "arquitectura",
+      "order": 1,
+      "title": "Arquitectura embebida",
+      "tagline": "Bloques, energía y firmware: cómo se organiza un sistema completo.",
+      "competency": "disenar",
+      "lessons": [
+        {
+          "id": "arq_bloques",
+          "title": "El sistema como cadena de bloques",
+          "summary": "Todo sistema embebido sigue el mismo recorrido: medir, decidir, actuar y comunicar.",
+          "body": [
+            "Un sistema inteligente no es un componente, sino una cadena: un sensor convierte una magnitud física en una señal eléctrica, el controlador la interpreta y decide, un actuador modifica el mundo físico y un enlace de comunicación informa a las personas.",
+            "La cadena es tan fuerte como su eslabón más débil. Un controlador potente no compensa un sensor impreciso, y un control perfecto no sirve si nadie se entera de una falla. Por eso se diseña de extremo a extremo y se revisan las interfaces entre bloques: tensiones, protocolos, corrientes y tiempos."
+          ],
+          "keyPoints": [
+            "Sensor → controlador → actuador forman el lazo de control.",
+            "La comunicación cierra un segundo lazo: el de las personas.",
+            "La alimentación atraviesa todos los bloques y suele ser el requisito olvidado.",
+            "Los errores más frecuentes están en las interfaces, no en los bloques."
+          ],
+          "inDesign": "En el tablero de diseño cada ranura es un bloque. Las líneas que los unen representan interfaces: el evaluador revisa cada una.",
+          "check": {
+            "prompt": "Un sistema mide bien y controla bien, pero no avisa a nadie cuando la temperatura se sale de rango. ¿Qué bloque falla?",
+            "options": ["El sensor", "El actuador", "La comunicación", "La alimentación"],
+            "answer": 2,
+            "explanation": "Sin comunicación, el lazo humano queda abierto: el sistema puede estar fallando sin que nadie lo sepa."
+          }
+        },
+        {
+          "id": "arq_energia",
+          "title": "Presupuesto de energía",
+          "summary": "Sumar el consumo de cada bloque durante un día define si el equipo puede funcionar con batería.",
+          "body": [
+            "La energía diaria de un sistema es la suma de lo que consume cada bloque multiplicado por el tiempo que está activo: E = Σ V · I · t. Un microcontrolador que consume 80 mA a 3.3 V todo el día gasta cerca de 7.5 Wh, más que una batería de 18650 completa.",
+            "Los actuadores suelen dominar el presupuesto. Una bomba de 24 W que funciona media hora al día consume 12 Wh: tanto como toda la electrónica junta. Antes de optimizar el firmware, conviene preguntarse si la carga puede hacer su trabajo con menos energía."
+          ],
+          "keyPoints": [
+            "Energía (Wh) = potencia (W) × tiempo (h).",
+            "La autonomía es la capacidad de la batería dividida entre el consumo diario.",
+            "Se diseña para el peor caso: días sin sol, no días promedio.",
+            "La carga (bomba, calefactor, compresor) suele consumir más que la electrónica."
+          ],
+          "formula": "Autonomía (días) = Capacidad de la batería (Wh) ÷ Consumo diario (Wh/día)",
+          "inDesign": "El informe de cada simulación muestra el consumo diario y, si la misión funciona con batería, la autonomía calculada sin aporte solar.",
+          "check": {
+            "prompt": "Una batería de 84 Wh alimenta un equipo que consume 21 Wh por día. ¿Cuántos días dura sin sol?",
+            "options": ["2 días", "4 días", "21 días", "84 días"],
+            "answer": 1,
+            "explanation": "84 Wh ÷ 21 Wh/día = 4 días."
+          }
+        },
+        {
+          "id": "arq_bajo_consumo",
+          "title": "Sueño profundo y ciclo de trabajo",
+          "summary": "Un microcontrolador que duerme el 99 % del tiempo consume cien veces menos.",
+          "body": [
+            "Muchos sistemas de monitoreo solo necesitan despertar unos milisegundos cada varios minutos. En sueño profundo un ESP32 consume menos de 1 mA frente a los 80 mA en actividad. El consumo promedio depende del ciclo de trabajo: la fracción del tiempo que el equipo está despierto.",
+            "El sueño profundo tiene costos: al despertar hay que reiniciar periféricos y reconectar la radio, y las salidas PWM se detienen. Por eso encaja con procesos lentos, como la humedad del suelo, y no con un control continuo que necesita modular un actuador sin pausa."
+          ],
+          "keyPoints": [
+            "Corriente promedio = D · I_activa + (1 − D) · I_reposo.",
+            "Reconectar Wi-Fi o LTE tras el sueño cuesta energía extra.",
+            "Durante el sueño profundo se detienen las salidas PWM.",
+            "Algunas placas (como el Arduino Uno) no pueden dormir de verdad: su regulador y su chip USB siguen consumiendo."
+          ],
+          "formula": "I_promedio = D · I_activa + (1 − D) · I_reposo",
+          "inDesign": "En el editor de lógica, la opción «Bajo consumo» activa el sueño profundo entre muestras. El evaluador revisa si el controlador lo admite y si el algoritmo es compatible.",
+          "check": {
+            "prompt": "¿Con qué algoritmo es incompatible dormir entre muestras si el actuador es un MOSFET con PWM?",
+            "options": ["Encendido/apagado", "Histéresis", "Proporcional", "Enclavamiento"],
+            "answer": 2,
+            "explanation": "El control proporcional necesita mantener una salida PWM intermedia, y el PWM se detiene durante el sueño profundo."
+          }
+        },
+        {
+          "id": "arq_tiempo_real",
+          "title": "Tiempo real y sistemas operativos",
+          "summary": "Un microcontrolador responde en microsegundos garantizados; Linux, no siempre.",
+          "body": [
+            "Un sistema es de tiempo real cuando una respuesta tardía es una respuesta incorrecta. Detener un motor con vibración excesiva es un ejemplo: si la orden llega tarde, el daño ya ocurrió.",
+            "Linux (por ejemplo, en una Raspberry Pi) reparte el procesador entre muchas tareas y no garantiza cuándo atenderá la tuya. Además tarda decenas de segundos en arrancar. Para funciones de seguridad se usa un microcontrolador, con FreeRTOS si hay varias tareas concurrentes, y se deja el procesamiento pesado a otro equipo."
+          ],
+          "keyPoints": [
+            "Tiempo real significa plazo garantizado, no velocidad.",
+            "Las funciones de seguridad van en microcontroladores o en PLC.",
+            "FreeRTOS reparte el tiempo entre tareas con prioridades definidas.",
+            "Un RTOS con pila de red necesita decenas de kilobytes de RAM."
+          ],
+          "inDesign": "El evaluador advierte cuando eliges una computadora con Linux para una misión que exige una parada de seguridad.",
+          "check": {
+            "prompt": "¿Por qué no conviene que una Raspberry Pi 4 sea el único equipo que detiene un motor por vibración?",
+            "options": ["Porque no tiene Wi-Fi", "Porque Linux no garantiza el tiempo de respuesta", "Porque su procesador es lento", "Porque no admite I²C"],
+            "answer": 1,
+            "explanation": "La Raspberry Pi es rápida, pero su sistema operativo no garantiza plazos. Una función de seguridad necesita plazos garantizados."
+          }
+        },
+        {
+          "id": "arq_firmware",
+          "title": "Firmware bloqueante y no bloqueante",
+          "summary": "Un delay() o una espera de red detienen todo el lazo de control.",
+          "body": [
+            "El firmware más simple es un bucle que lee, decide, actúa y envía, esperando a que cada paso termine. Es fácil de escribir, pero cada espera se suma: la conversión de 750 ms del DS18B20 o los 3 s que tarda un módem celular en transmitir congelan el control durante ese tiempo.",
+            "El firmware no bloqueante usa temporizadores (millis()) y máquinas de estado: inicia una conversión, sigue atendiendo otras tareas y vuelve cuando el resultado está listo. Con un RTOS se logra lo mismo separando el control y la comunicación en tareas distintas."
+          ],
+          "keyPoints": [
+            "Cada espera bloqueante retrasa la siguiente muestra.",
+            "millis() permite programar acciones sin detener el bucle.",
+            "Las máquinas de estado dividen una operación larga en pasos cortos.",
+            "Un RTOS aísla el control de las demoras de la red."
+          ],
+          "inDesign": "En el editor de lógica eliges la arquitectura del firmware. En modo bloqueante, el simulador suma la conversión del sensor y la latencia de la radio al periodo de muestreo.",
+          "check": {
+            "prompt": "Un lazo muestrea cada 5 s y en cada reporte espera 3 s a que el módem LTE confirme el envío. ¿Qué ocurre en modo bloqueante?",
+            "options": ["Nada, el envío es independiente", "Ese ciclo dura 8 s en lugar de 5 s", "El sensor mide dos veces", "El actuador se apaga"],
+            "answer": 1,
+            "explanation": "La espera del módem se suma al periodo de muestreo: el controlador no hace nada más mientras espera."
+          }
+        }
+      ]
+    },
+    {
+      "id": "sensores",
+      "order": 2,
+      "title": "Sensores",
+      "tagline": "Elegir qué medir, con qué exactitud y cómo conectarlo.",
+      "competency": "integrar",
+      "lessons": [
+        {
+          "id": "sen_magnitud",
+          "title": "¿Qué mide realmente el sensor?",
+          "summary": "El nombre comercial no siempre coincide con la magnitud física medida.",
+          "body": [
+            "Un DHT22 mide la humedad relativa del aire, no la humedad del suelo. Un CCS811 mide compuestos orgánicos volátiles y calcula un «CO₂ equivalente» que no es CO₂. Un SW-420 detecta que hubo un golpe, pero no cuánto vibró la máquina.",
+            "Antes de mirar el precio o la precisión, confirma en la hoja de datos cuál es la magnitud física que el sensor transforma en señal y qué principio usa. Una lectura precisa de la magnitud equivocada es inútil."
+          ],
+          "keyPoints": [
+            "Lee el principio de medición en la hoja de datos.",
+            "«Estimado» o «equivalente» indica que la magnitud no se mide directamente.",
+            "Los sensores de gas semiconductores (serie MQ) no son selectivos.",
+            "Un interruptor de vibración detecta presencia, no severidad."
+          ],
+          "inDesign": "El evaluador marca como crítico un sensor que no mide la variable de la misión, aunque su nombre lo sugiera.",
+          "check": {
+            "prompt": "Para controlar el CO₂ de un aula, ¿qué sensor mide CO₂ real?",
+            "options": ["CCS811", "MQ-135", "SCD40", "DHT22"],
+            "answer": 2,
+            "explanation": "El SCD40 mide CO₂ por un principio fotoacústico. El CCS811 estima un eCO₂ a partir de compuestos volátiles y el MQ-135 responde a muchos gases."
+          }
+        },
+        {
+          "id": "sen_exactitud",
+          "title": "Exactitud, resolución y tolerancia",
+          "summary": "La exactitud del sensor debe ser bastante menor que la tolerancia del proceso.",
+          "body": [
+            "La resolución es el cambio más pequeño que el sensor puede mostrar; la exactitud, cuánto puede diferir su lectura del valor real. Un DS18B20 muestra 0.0625 °C de resolución, pero su exactitud es de ±0.5 °C: puede leer 37.5 °C cuando la temperatura real es 37.0 °C.",
+            "En metrología se recomienda que la incertidumbre del instrumento sea al menos cuatro veces menor que la tolerancia del proceso. Si la banda permitida es de ±0.5 °C, un sensor de ±0.5 °C deja cero margen: conviene calibrarlo contra un termómetro patrón."
+          ],
+          "keyPoints": [
+            "Resolución ≠ exactitud.",
+            "Regla práctica: exactitud ≤ un cuarto de la tolerancia.",
+            "Un error sistemático (sesgo) desplaza todo el control.",
+            "La calibración reduce el sesgo, no el ruido."
+          ],
+          "inDesign": "El simulador agrega a cada lectura un sesgo y un ruido proporcionales a la exactitud del sensor elegido.",
+          "check": {
+            "prompt": "La banda de control es 37.0 °C a 38.0 °C. ¿Qué sensor es claramente insuficiente?",
+            "options": ["DS18B20 (±0.5 °C)", "DHT22 (±0.5 °C)", "DHT11 (±2 °C)", "Ninguno"],
+            "answer": 2,
+            "explanation": "Con ±2 °C el DHT11 puede leer 37.5 °C cuando la incubadora está a 35.5 °C: su error es mayor que toda la banda."
+          }
+        },
+        {
+          "id": "sen_rango",
+          "title": "Rango y zona ciega",
+          "summary": "El sensor debe ver todo el rango del proceso, incluidos los valores de alarma.",
+          "body": [
+            "Un sensor solo informa dentro de su rango. Fuera de él, se satura y repite el valor extremo. El LM35 en su configuración básica no mide por debajo de 2 °C: en un refrigerador de vacunas nunca detectaría una congelación.",
+            "Los sensores ultrasónicos tienen además una zona ciega cerca del transductor. El JSN-SR04T no ve los primeros 25 cm: instalado en la tapa de un tanque de 2 m, no puede distinguir el 90 % del 100 %, justo la zona donde se produce un rebalse."
+          ],
+          "keyPoints": [
+            "El rango debe cubrir el valor de alarma con margen.",
+            "Fuera de rango, la lectura se satura sin aviso.",
+            "La zona ciega es parte del rango no utilizable.",
+            "Los peores casos (congelación, rebalse) están en los extremos."
+          ],
+          "inDesign": "Cada misión declara el rango que el sensor debe cubrir. Si no lo cubre, el simulador satura las lecturas en el límite del sensor.",
+          "check": {
+            "prompt": "Un refrigerador de vacunas debe alertar si baja de 2 °C. ¿Por qué el LM35 en configuración básica es inadecuado?",
+            "options": ["Porque es digital", "Porque no mide por debajo de 2 °C", "Porque consume mucho", "Porque es lento"],
+            "answer": 1,
+            "explanation": "En la configuración básica el LM35 mide de 2 °C a 150 °C: una congelación aparecería como 2 °C."
+          }
+        },
+        {
+          "id": "sen_niveles_logicos",
+          "title": "Niveles lógicos de 3.3 V y 5 V",
+          "summary": "Conectar una salida de 5 V a un pin de 3.3 V puede destruirlo lentamente.",
+          "body": [
+            "Los microcontroladores modernos, como el ESP32 o el RP2040, funcionan con 3.3 V y sus pines no toleran tensiones mayores. Un HC-SR04 devuelve pulsos de 5 V por su pin ECHO: conectado directamente, fuerza los diodos de protección del ESP32, produce lecturas erráticas y termina dañando el pin.",
+            "En el sentido contrario, un sensor de 3.3 V conectado a una placa de 5 V puede recibir 5 V a través de las resistencias de pull-up del bus I²C. La solución es un adaptador de nivel lógico bidireccional o, para una sola señal de entrada, un divisor resistivo."
+          ],
+          "keyPoints": [
+            "Revisa la tensión lógica de ambos extremos de cada conexión.",
+            "Adaptador bidireccional para I²C; divisor resistivo para señales de entrada.",
+            "Algunos pines son tolerantes a 5 V (marcados FT en STM32).",
+            "Una salida analógica de 0–5 V también necesita divisor ante un ADC de 3.3 V."
+          ],
+          "formula": "V_salida = V_entrada · R2 ÷ (R1 + R2)",
+          "inDesign": "La opción «Acondicionamiento de señal» del tablero agrega un adaptador de nivel o un divisor. Sin él, el simulador genera lecturas intermitentes cuando las tensiones no coinciden.",
+          "check": {
+            "prompt": "Con R1 = 10 kΩ y R2 = 20 kΩ, ¿qué tensión llega al ESP32 desde un pulso de 5 V?",
+            "options": ["1.7 V", "2.5 V", "3.3 V", "5 V"],
+            "answer": 2,
+            "explanation": "5 V × 20 kΩ ÷ 30 kΩ = 3.33 V, un nivel alto válido y seguro para el ESP32."
+          }
+        },
+        {
+          "id": "sen_ancho_banda",
+          "title": "Ancho de banda y muestreo",
+          "summary": "Un sensor no puede medir fenómenos más rápidos que su ancho de banda.",
+          "body": [
+            "Cada sensor responde bien hasta cierta frecuencia. Por encima, la amplitud que reporta cae. El defecto de un rodamiento puede vibrar a 400 Hz: un MPU-6050, limitado a 260 Hz, verá solo una fracción de esa vibración y la alarma llegará tarde o nunca.",
+            "Además, el teorema de muestreo exige tomar al menos dos muestras por ciclo de la frecuencia más alta de interés. Un ADXL345 que muestrea a 3200 Hz cubre con holgura un defecto de 400 Hz."
+          ],
+          "keyPoints": [
+            "Ancho de banda del sensor > frecuencia del fenómeno.",
+            "Frecuencia de muestreo ≥ 2 × frecuencia máxima (Nyquist).",
+            "En vibraciones se reporta el valor RMS en una ventana de tiempo.",
+            "Un sensor lento subestima el fenómeno: el error es peligroso."
+          ],
+          "formula": "f_muestreo ≥ 2 · f_máxima",
+          "inDesign": "En la misión de la faja, el simulador atenúa la vibración medida en proporción al ancho de banda del acelerómetro.",
+          "check": {
+            "prompt": "El defecto vibra a 400 Hz. ¿Qué acelerómetro lo mide sin atenuación?",
+            "options": ["MPU-6050 (260 Hz)", "ADXL345 (1600 Hz)", "SW-420", "Ninguno de los anteriores"],
+            "answer": 1,
+            "explanation": "Solo el ADXL345 tiene un ancho de banda mayor que 400 Hz entre esas opciones."
+          }
+        },
+        {
+          "id": "sen_corrosion",
+          "title": "Entorno, sellado y deriva",
+          "summary": "Humedad, polvo y corrosión cambian la lectura con el tiempo.",
+          "body": [
+            "Un sensor puede funcionar perfectamente en el laboratorio y fallar en semanas en el campo. Los electrodos de un sensor resistivo de suelo se oxidan si circula corriente continua: su lectura deriva y el sistema riega de menos.",
+            "La deriva se combate con mejores principios de medición (un sensor capacitivo no expone metal al suelo), alimentando el sensor solo durante la lectura y con encapsulados adecuados para el ambiente: grado IP, sondas selladas y cajas con prensaestopas."
+          ],
+          "keyPoints": [
+            "La deriva es un error que crece con el tiempo.",
+            "Alimentar el sensor solo al medir reduce la corrosión.",
+            "Ambientes húmedos o industriales exigen sensores sellados.",
+            "Un sistema de campo debe recalibrarse periódicamente."
+          ],
+          "inDesign": "El simulador suma la deriva diaria del sensor a cada lectura. El modo de bajo consumo la reduce porque el sensor solo se alimenta al medir.",
+          "check": {
+            "prompt": "¿Por qué un sensor capacitivo de suelo dura más que uno resistivo?",
+            "options": ["Porque es más barato", "Porque no tiene electrodos expuestos a la corrosión", "Porque es digital", "Porque mide más rápido"],
+            "answer": 1,
+            "explanation": "El sensor capacitivo mide a través de un recubrimiento aislante: no circula corriente por el suelo y no se oxida."
+          }
+        }
+      ]
+    },
+    {
+      "id": "actuadores",
+      "order": 3,
+      "title": "Actuadores y control",
+      "tagline": "Mover el mundo físico sin dañar el controlador ni la carga.",
+      "competency": "programar",
+      "lessons": [
+        {
+          "id": "act_etapas_potencia",
+          "title": "Etapas de potencia",
+          "summary": "Un pin GPIO entrega miliamperios; una carga real necesita amperios.",
+          "body": [
+            "Un pin del ESP32 entrega como máximo 40 mA. Una resistencia calefactora de 40 W a 12 V consume 3.3 A: conectarla directamente al pin lo destruye al primer encendido. Entre el controlador y la carga siempre hay una etapa de potencia.",
+            "El relé aísla eléctricamente y conmuta corriente alterna o continua, pero es lento y se desgasta. El MOSFET de nivel lógico (IRLZ44N) conduce por completo con 3.3 V en la compuerta y admite PWM. El MOSFET estándar (IRF540N) especifica su conducción con 10 V: con 3.3 V apenas conduce y se calienta."
+          ],
+          "keyPoints": [
+            "Nunca conectes una carga de potencia directamente a un GPIO.",
+            "Relé: aislamiento y versatilidad; vida mecánica limitada.",
+            "MOSFET de nivel lógico: conmutación rápida y PWM.",
+            "Revisa V_GS(th) y R_DS(on) a la tensión lógica real."
+          ],
+          "inDesign": "El catálogo de actuadores combina cada carga con su etapa de potencia. El simulador modela la conducción parcial del MOSFET estándar y el daño del GPIO.",
+          "check": {
+            "prompt": "¿Qué etapa permite controlar un calefactor de 12 V con PWM desde un ESP32?",
+            "options": ["Módulo relé", "MOSFET IRLZ44N", "MOSFET IRF540N", "Conexión directa al GPIO"],
+            "answer": 1,
+            "explanation": "El IRLZ44N es de nivel lógico: conduce por completo con 3.3 V y conmuta a la frecuencia del PWM."
+          }
+        },
+        {
+          "id": "act_dimensionamiento",
+          "title": "Dimensionar el actuador",
+          "summary": "Si el actuador no supera la perturbación, ningún algoritmo lo salva.",
+          "body": [
+            "Un actuador debe poder vencer la peor perturbación del proceso. Un aula con 75 estudiantes genera CO₂ más rápido de lo que un ventilador de gabinete de 30 m³/h puede extraer: la concentración sube aunque el ventilador trabaje al 100 %.",
+            "Cuando la salida del controlador pasa la mayor parte del tiempo saturada al máximo, el problema no es la lógica sino la capacidad. La solución es un actuador de mayor capacidad, reducir la perturbación o aceptar un requisito más realista."
+          ],
+          "keyPoints": [
+            "Capacidad del actuador > perturbación máxima.",
+            "Salida saturada al 100 % = actuador subdimensionado.",
+            "Una fuente también se dimensiona: corriente máxima > corriente de la carga.",
+            "Deja margen: los componentes envejecen."
+          ],
+          "inDesign": "El evaluador detecta cuándo la salida estuvo saturada casi todo el tiempo sin cumplir la banda y lo reporta como actuador subdimensionado.",
+          "check": {
+            "prompt": "Una fuente de 12 V · 1 A alimenta un calefactor de 3.3 A. ¿Qué ocurre?",
+            "options": ["Calienta más lento", "La tensión cae y el controlador se reinicia", "Funciona normalmente", "El calefactor consume solo 1 A sin efectos"],
+            "answer": 1,
+            "explanation": "La fuente no puede entregar la corriente: su tensión cae y el microcontrolador se reinicia cada vez que la carga se enciende."
+          }
+        },
+        {
+          "id": "act_limites_ciclo",
+          "title": "Límites de conmutación",
+          "summary": "Relés y compresores tienen un número máximo de maniobras.",
+          "body": [
+            "Un relé mecánico soporta unas 100 000 maniobras. Si conmuta 200 veces por hora, dura menos de tres semanas. Un compresor de refrigeración necesita varios minutos apagado para igualar presiones: arrancarlo más de 6 veces por hora lo sobrecalienta.",
+            "La forma de proteger estos actuadores está en la lógica: una histéresis suficiente, un tiempo mínimo de encendido y de apagado, o un actuador de estado sólido cuando la carga lo permite."
+          ],
+          "keyPoints": [
+            "Vida útil (h) = maniobras admisibles ÷ maniobras por hora.",
+            "Histéresis y tiempos mínimos reducen las conmutaciones.",
+            "Los motores grandes limitan sus arranques por hora.",
+            "El estado sólido no se desgasta por conmutar."
+          ],
+          "formula": "Vida útil (h) = Maniobras admisibles ÷ Maniobras por hora",
+          "inDesign": "El simulador cuenta los arranques por hora de cada relé y los compara con el límite del actuador.",
+          "check": {
+            "prompt": "Un relé de 100 000 maniobras conmuta 100 veces por hora. ¿Cuánto dura aproximadamente?",
+            "options": ["100 horas", "1000 horas (unos 42 días)", "10 000 horas", "Indefinidamente"],
+            "answer": 1,
+            "explanation": "100 000 ÷ 100 = 1000 horas, unos 42 días de funcionamiento continuo."
+          }
+        },
+        {
+          "id": "ctl_histeresis",
+          "title": "Encendido/apagado e histéresis",
+          "summary": "Una banda muerta evita que el actuador tiemble alrededor del punto de consigna.",
+          "body": [
+            "El control de encendido/apagado enciende el actuador cuando la variable está por debajo del punto de consigna y lo apaga cuando lo supera. Con el ruido del sensor, la lectura cruza la consigna muchas veces por minuto y el actuador conmuta sin parar.",
+            "La histéresis define dos umbrales: se enciende en consigna − h/2 y se apaga en consigna + h/2. La variable oscila dentro de esa banda con conmutaciones espaciadas. Si la histéresis es demasiado grande, la oscilación sale de la banda permitida; si es demasiado pequeña, desgasta el actuador."
+          ],
+          "keyPoints": [
+            "Encendido en consigna − h/2, apagado en consigna + h/2.",
+            "Mayor histéresis = menos conmutaciones y más oscilación.",
+            "El retardo del sensor agranda la oscilación real.",
+            "Ideal para relés, compresores y bombas."
+          ],
+          "inDesign": "En el editor de lógica eliges el algoritmo y ajustas la histéresis. El gráfico de la simulación muestra la banda y cada conmutación.",
+          "check": {
+            "prompt": "Consigna 5 °C e histéresis 3 °C en un refrigerador. ¿Cuándo se enciende el compresor?",
+            "options": ["A 3.5 °C", "A 5 °C", "A 6.5 °C", "A 8 °C"],
+            "answer": 2,
+            "explanation": "Al enfriar, el compresor arranca cuando la temperatura supera consigna + h/2 = 6.5 °C y se detiene en 3.5 °C."
+          }
+        },
+        {
+          "id": "ctl_proporcional",
+          "title": "Control proporcional y PID",
+          "summary": "Dosificar el actuador según el error, en lugar de todo o nada.",
+          "body": [
+            "El control proporcional calcula la salida como u = Kp · e, donde e es la diferencia entre la consigna y la medición. Evita las oscilaciones del encendido/apagado, pero deja un error estacionario: para mantener la salida en 60 % necesita un error permanente.",
+            "El PID agrega un término integral que acumula el error y lo elimina con el tiempo, y un término derivativo que frena los cambios bruscos. Requiere un actuador capaz de valores intermedios: un MOSFET con PWM, no un relé."
+          ],
+          "keyPoints": [
+            "u = Kp·e + Ki·∫e·dt + Kd·de/dt.",
+            "El proporcional puro deja error estacionario.",
+            "El integral elimina ese error; demasiado provoca sobreimpulso.",
+            "PID necesita un actuador modulable (PWM)."
+          ],
+          "formula": "u(t) = Kp·e(t) + Ki·∫e(t)dt + Kd·de(t)/dt",
+          "inDesign": "Al elegir proporcional o PID, el editor habilita Kp, Ki y Kd. El evaluador advierte si los combinas con un relé.",
+          "check": {
+            "prompt": "Con control proporcional puro la incubadora se estabiliza en 37.2 °C con consigna de 37.5 °C. ¿Qué término elimina ese error?",
+            "options": ["Aumentar la histéresis", "El término integral", "El término derivativo", "Reducir el muestreo"],
+            "answer": 1,
+            "explanation": "El término integral acumula el error mientras exista y ajusta la salida hasta anularlo."
+          }
+        },
+        {
+          "id": "ctl_enclavamiento",
+          "title": "Enclavamiento en paradas de seguridad",
+          "summary": "Una parada por falla no debe rearmarse sola.",
+          "body": [
+            "Si un motor se detiene por vibración excesiva, la vibración desaparece de inmediato. Un control de encendido/apagado interpretaría que todo está bien y volvería a arrancarlo, una y otra vez, destruyendo el rodamiento dañado.",
+            "El enclavamiento (latch) memoriza la condición de falla: la salida de parada queda activa hasta que una persona revisa el equipo y la rearma manualmente. Es un principio básico de la seguridad funcional en automatización."
+          ],
+          "keyPoints": [
+            "La condición de falla se memoriza hasta un rearme manual.",
+            "Evita ciclos de arranque y parada sobre un equipo dañado.",
+            "El rearme exige verificar la causa.",
+            "Se usa en paradas de emergencia, sobrecargas y alarmas críticas."
+          ],
+          "inDesign": "El algoritmo «Disparo con enclavamiento» está disponible en la misión de la faja transportadora.",
+          "check": {
+            "prompt": "¿Qué hace un control con enclavamiento cuando la vibración vuelve a la normalidad tras la parada?",
+            "options": ["Rearranca el motor", "Mantiene el motor detenido hasta un rearme manual", "Reduce la velocidad", "Envía un reporte y rearranca"],
+            "answer": 1,
+            "explanation": "El enclavamiento mantiene la parada: la vibración bajó porque el motor se detuvo, no porque el defecto desapareció."
+          }
+        }
+      ]
+    },
+    {
+      "id": "comunicacion",
+      "order": 4,
+      "title": "Comunicación",
+      "tagline": "Elegir el enlace según distancia, infraestructura y energía.",
+      "competency": "disenar",
+      "lessons": [
+        {
+          "id": "com_alcance",
+          "title": "Alcance, obstáculos e infraestructura",
+          "summary": "Cada tecnología necesita algo al otro lado: un router, un teléfono, un gateway o una antena celular.",
+          "body": [
+            "Wi-Fi llega a unos 40 m en interiores, pero cada losa de concreto atenúa la señal. Bluetooth Low Energy necesita un teléfono cercano. LoRaWAN alcanza kilómetros, pero requiere un gateway. La red celular funciona donde haya cobertura, con un costo mensual.",
+            "La primera pregunta no es qué tecnología es mejor, sino qué infraestructura existe en el lugar y a qué distancia está. Un enlace sin infraestructura del otro lado simplemente no funciona."
+          ],
+          "keyPoints": [
+            "Wi-Fi: router a decenas de metros.",
+            "BLE: teléfono o pasarela a unos 15 m.",
+            "LoRaWAN: gateway a kilómetros, pocos mensajes.",
+            "Celular: cobertura, módulo caro y plan mensual."
+          ],
+          "inDesign": "Cada misión describe la infraestructura disponible y la distancia. El simulador calcula la pérdida de mensajes según el alcance y los obstáculos.",
+          "check": {
+            "prompt": "Un sensor en un campo a 1.2 km de la oficina, donde hay un gateway LoRaWAN y no hay Wi-Fi. ¿Qué enlace conviene?",
+            "options": ["Wi-Fi", "Bluetooth", "LoRaWAN", "USB"],
+            "answer": 2,
+            "explanation": "LoRaWAN alcanza varios kilómetros y ya existe un gateway: es la opción de menor consumo y sin costo mensual."
+          }
+        },
+        {
+          "id": "com_lora",
+          "title": "LoRaWAN y tiempo en el aire",
+          "summary": "El largo alcance se paga con mensajes pequeños y poco frecuentes.",
+          "body": [
+            "LoRa logra kilómetros de alcance transmitiendo muy lento. Un mensaje de pocos bytes ocupa el canal entre 0.1 s y 1 s. Por eso las redes limitan el tiempo en el aire de cada dispositivo: una política de uso justo típica permite 30 s por día.",
+            "Con 0.25 s por mensaje, 30 s por día equivalen a 120 mensajes: uno cada 12 minutos. Reportar cada 5 minutos viola la política y el gateway descarta el exceso. En LoRaWAN se envía lo necesario, compactado en bytes, y no texto."
+          ],
+          "keyPoints": [
+            "Mensajes de decenas de bytes, no de kilobytes.",
+            "El tiempo en el aire limita la frecuencia de envío.",
+            "Consumo mínimo: ideal para baterías.",
+            "Latencia de segundos: no sirve para control en tiempo real."
+          ],
+          "formula": "Mensajes por día = Tiempo en el aire permitido ÷ Tiempo por mensaje",
+          "inDesign": "Si reportas con más frecuencia que la permitida por LoRaWAN, el simulador suprime los mensajes excedentes.",
+          "check": {
+            "prompt": "Con 30 s de aire por día y 0.25 s por mensaje, ¿cuál es el intervalo mínimo entre reportes?",
+            "options": ["1 minuto", "5 minutos", "12 minutos", "1 hora"],
+            "answer": 2,
+            "explanation": "30 ÷ 0.25 = 120 mensajes por día; 1440 minutos ÷ 120 = 12 minutos."
+          }
+        },
+        {
+          "id": "com_industrial",
+          "title": "Comunicación en planta",
+          "summary": "El ruido eléctrico y el metal castigan a las radios; los buses diferenciales resisten.",
+          "body": [
+            "En una planta hay motores, variadores de frecuencia y estructuras metálicas que reflejan y atenúan las ondas de radio. Un enlace Wi-Fi que funciona en una oficina puede perder un tercio de sus paquetes junto a una faja transportadora.",
+            "RS-485 transmite por un par trenzado con señal diferencial: el ruido afecta por igual a ambos hilos y se cancela. Llega a 1200 m y es la base de Modbus RTU, el protocolo que entienden casi todos los PLC y sistemas SCADA."
+          ],
+          "keyPoints": [
+            "Señal diferencial = inmunidad al ruido de modo común.",
+            "RS-485 alcanza 1200 m y admite varios equipos en el bus.",
+            "Modbus RTU es el lenguaje común de los PLC.",
+            "La radio en planta exige estudio de cobertura."
+          ],
+          "inDesign": "En la misión de la faja, las radios sufren una penalización de pérdida por el ambiente industrial.",
+          "check": {
+            "prompt": "¿Por qué RS-485 resiste el ruido de los motores?",
+            "options": ["Porque usa fibra óptica", "Porque transmite en forma diferencial por un par trenzado", "Porque es inalámbrico", "Porque transmite muy rápido"],
+            "answer": 1,
+            "explanation": "El ruido se induce por igual en ambos hilos del par y la diferencia entre ellos, que lleva la información, no cambia."
+          }
+        },
+        {
+          "id": "com_celular",
+          "title": "Enlace celular y SMS",
+          "summary": "Donde no hay internet fijo, la red celular lleva la alerta al responsable.",
+          "body": [
+            "Los módulos LTE-M y NB-IoT están diseñados para equipos que envían pocos datos. Funcionan donde exista cobertura y no dependen de ninguna infraestructura local. Su costo está en el módulo, en el plan mensual y en el consumo al transmitir: varios segundos a cientos de miliamperios.",
+            "Para una alerta crítica, como la ruptura de la cadena de frío de vacunas, el enlace celular es a menudo la única vía disponible. Conviene que el firmware guarde los mensajes cuando la red cae y los reenvíe al volver."
+          ],
+          "keyPoints": [
+            "Independiente de la infraestructura local.",
+            "Costo mensual por línea.",
+            "Picos de consumo altos al transmitir.",
+            "Latencia de segundos, aceptable para alertas."
+          ],
+          "inDesign": "El informe muestra el costo operativo mensual cuando eliges un enlace celular.",
+          "check": {
+            "prompt": "Un puesto de salud rural sin internet fijo necesita alertar al responsable de noche. ¿Qué enlace funciona?",
+            "options": ["Wi-Fi", "Bluetooth", "Celular LTE-M o SMS", "USB"],
+            "answer": 2,
+            "explanation": "Sin router ni personal presente, solo la red celular lleva el mensaje hasta el teléfono del responsable."
+          }
+        }
+      ]
+    },
+    {
+      "id": "iot",
+      "order": 5,
+      "title": "IoT",
+      "tagline": "Del dato a la decisión: publicar, entregar y alertar.",
+      "competency": "disenar",
+      "lessons": [
+        {
+          "id": "iot_mqtt",
+          "title": "MQTT: publicar y suscribirse",
+          "summary": "Los dispositivos publican en temas; los paneles y las personas se suscriben.",
+          "body": [
+            "En MQTT, un dispositivo no envía datos a un destinatario concreto: los publica en un tema, como «aula-204/co2», a través de un servidor llamado bróker. Cualquier aplicación suscrita a ese tema recibe el dato: un panel, una base de datos o un servicio de alertas.",
+            "Esta arquitectura desacopla a quien produce el dato de quien lo usa. Se puede agregar un nuevo panel sin tocar el firmware. El mensaje suele ser un JSON pequeño con la medición, la unidad y la hora."
+          ],
+          "keyPoints": [
+            "Bróker central, temas jerárquicos.",
+            "Publicador y suscriptor no se conocen.",
+            "Mensajes pequeños, típicamente JSON.",
+            "Un tema de alertas separado del de mediciones."
+          ],
+          "inDesign": "El firmware generado publica las mediciones y las alertas en temas distintos.",
+          "check": {
+            "prompt": "¿Qué ventaja tiene publicar en un tema MQTT frente a enviar el dato a un servidor fijo?",
+            "options": ["Consume menos energía siempre", "Varios consumidores pueden recibir el dato sin cambiar el firmware", "No necesita red", "Es más seguro por defecto"],
+            "answer": 1,
+            "explanation": "El bróker reparte el dato a todos los suscriptores: agregar un panel nuevo no exige reprogramar el dispositivo."
+          }
+        },
+        {
+          "id": "iot_qos",
+          "title": "Entrega garantizada y reintentos",
+          "summary": "Las redes fallan: el firmware debe guardar y reenviar.",
+          "body": [
+            "Un router que se reinicia, una losa que atenúa la señal o una celda saturada hacen que se pierdan mensajes. Si el firmware envía y olvida, esos datos desaparecen, incluida una posible alerta.",
+            "La estrategia de almacenar y reenviar guarda cada mensaje hasta recibir confirmación (en MQTT, calidad de servicio QoS 1) y lo reintenta cuando el enlace vuelve. Los datos llegan tarde, pero llegan. Para una alerta, llegar tarde es mejor que no llegar."
+          ],
+          "keyPoints": [
+            "QoS 0: se envía una vez, sin confirmación.",
+            "QoS 1: se reintenta hasta recibir confirmación.",
+            "Un búfer local cubre las caídas de red.",
+            "Cada mensaje debe llevar la hora de medición, no la de llegada."
+          ],
+          "inDesign": "La opción «Almacenar y reenviar» del editor de lógica reintenta los mensajes perdidos y los que coinciden con una caída del enlace.",
+          "check": {
+            "prompt": "El router se reinicia durante 10 minutos. Sin reintentos, ¿qué pasa con los reportes de ese periodo?",
+            "options": ["Llegan más tarde", "Se pierden", "Se duplican", "Se envían por Bluetooth"],
+            "answer": 1,
+            "explanation": "Sin almacenamiento local, el firmware descarta cada mensaje que no pudo enviar."
+          }
+        },
+        {
+          "id": "iot_reporte",
+          "title": "¿Cada cuánto reportar?",
+          "summary": "Reportar demasiado gasta energía y datos; reportar poco oculta los problemas.",
+          "body": [
+            "El intervalo de reporte depende de la velocidad del proceso y de quién usa el dato. La temperatura de una incubadora cambia en minutos; la humedad de un suelo, en horas. Reportar cada 10 s una variable que cambia cada hora solo gasta batería y ancho de banda.",
+            "Las alertas no deben esperar al siguiente reporte: se envían en cuanto se detecta el evento. Muestreo rápido para controlar, reporte periódico para registrar y alerta inmediata para actuar son tres ritmos distintos."
+          ],
+          "keyPoints": [
+            "Muestreo (control) ≠ reporte (registro) ≠ alerta (evento).",
+            "El reporte se ajusta a la dinámica del proceso.",
+            "Las alertas se envían por evento, no por calendario.",
+            "Cada mensaje cuesta energía y, en celular, dinero."
+          ],
+          "inDesign": "El editor de lógica separa el periodo de muestreo del periodo de reporte. Las alertas siempre se envían por evento.",
+          "check": {
+            "prompt": "La humedad del suelo cambia unos pocos puntos por hora. ¿Qué intervalo de reporte es razonable?",
+            "options": ["Cada segundo", "Cada 10 segundos", "Cada 15 minutos", "Una vez por semana"],
+            "answer": 2,
+            "explanation": "Cada 15 minutos registra bien la tendencia sin gastar energía ni exceder el tiempo en el aire de LoRaWAN."
+          }
+        },
+        {
+          "id": "iot_seguridad",
+          "title": "Seguridad básica del dispositivo",
+          "summary": "Un dispositivo conectado es una puerta de entrada a la red.",
+          "body": [
+            "Un sistema IoT expuesto sin protección permite que cualquiera lea los datos o, peor, envíe órdenes al actuador. Las medidas mínimas son cifrar la comunicación (TLS en MQTT), usar credenciales únicas por dispositivo y no dejar contraseñas escritas en el código publicado.",
+            "Las órdenes remotas que mueven actuadores deben validarse en el dispositivo: un mensaje que pide encender un calefactor a 90 °C debe rechazarse aunque venga de una fuente autenticada. Los límites de seguridad viven en el firmware."
+          ],
+          "keyPoints": [
+            "TLS para cifrar el enlace con el bróker.",
+            "Credenciales por dispositivo, fuera del repositorio.",
+            "Límites de seguridad implementados en el firmware.",
+            "Actualizaciones de firmware firmadas."
+          ],
+          "inDesign": "El firmware generado separa las credenciales en un archivo aparte y limita la consigna al rango permitido.",
+          "check": {
+            "prompt": "¿Dónde debe validarse que una consigna remota esté dentro de un rango seguro?",
+            "options": ["Solo en el panel web", "En el bróker", "En el firmware del dispositivo", "No hace falta validarla"],
+            "answer": 2,
+            "explanation": "El firmware es la última barrera: aunque el panel o la red fallen, el dispositivo no debe ejecutar una orden peligrosa."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "findings": {
+    "A01_controller_supply": {
+      "title": "El controlador no recibe alimentación",
+      "message": "{controller} necesita {options}, pero {power} no ofrece ese riel. El sistema completo queda apagado.",
+      "fix": "Elige una fuente que entregue la tensión del controlador o un controlador compatible con los rieles disponibles.",
+      "lessonId": "arq_bloques"
+    },
+    "A02_external_radio": {
+      "title": "Radio externa agregada",
+      "message": "{controller} no integra {comm}. Se sumó un módulo externo de S/ {cost} y una conexión serie adicional.",
+      "fix": "Si el enlace es imprescindible, considera un controlador que ya lo integre.",
+      "lessonId": "arq_bloques"
+    },
+    "A03_rtos_ram": {
+      "title": "Memoria insuficiente para un RTOS",
+      "message": "{controller} tiene {ram} de RAM. Un RTOS con pila de red necesita decenas de kilobytes: el firmware no cabría.",
+      "fix": "Usa un bucle no bloqueante con millis() o un controlador con más memoria.",
+      "lessonId": "arq_tiempo_real"
+    },
+    "A04_linux_realtime": {
+      "title": "Linux en una función de seguridad",
+      "message": "{controller} ejecuta Linux, que no garantiza el tiempo de respuesta y tarda decenas de segundos en arrancar.",
+      "fix": "Deja la parada de seguridad a un microcontrolador y usa la computadora solo para procesar datos.",
+      "lessonId": "arq_tiempo_real"
+    },
+    "A05_autonomy": {
+      "title": "La batería no alcanza",
+      "message": "El sistema consume {energy} Wh por día y la batería almacena {battery} Wh: dura {value} días sin sol y se piden {limit}.",
+      "fix": "Reduce el consumo: activa el bajo consumo, elige una carga más eficiente o un controlador que duerma.",
+      "lessonId": "arq_energia"
+    },
+    "A06_budget": {
+      "title": "Presupuesto excedido",
+      "message": "El diseño cuesta S/ {value} y el presupuesto es de S/ {limit}.",
+      "fix": "Busca el bloque más caro y pregúntate si sus prestaciones son necesarias para esta misión.",
+      "lessonId": "arq_bloques"
+    },
+    "A07_no_mains": {
+      "title": "No hay red eléctrica en el lugar",
+      "message": "{power} necesita un tomacorriente y en el sitio no hay red eléctrica.",
+      "fix": "Elige una fuente con batería y, si la misión dura semanas, con recarga solar.",
+      "lessonId": "arq_energia"
+    },
+    "A08_oversized": {
+      "title": "Controlador sobredimensionado",
+      "message": "{controller} es una computadora completa: cuesta y consume varias veces más de lo que esta tarea necesita.",
+      "fix": "Un microcontrolador resuelve la adquisición y el control con una fracción del costo y la energía.",
+      "lessonId": "arq_bloques"
+    },
+    "A09_no_deep_sleep": {
+      "title": "El controlador no puede dormir",
+      "message": "Activaste el bajo consumo, pero {controller} no tiene un modo de sueño profundo útil: la placa sigue consumiendo como si estuviera activa.",
+      "fix": "Elige un controlador con sueño profundo, como el ESP32 o la Pico W.",
+      "lessonId": "arq_bajo_consumo"
+    },
+    "S01_wrong_variable": {
+      "title": "El sensor no mide la variable del proceso",
+      "message": "{sensor} mide {measures}, pero la misión necesita medir {variable}. El controlador recibe un dato que no sirve.",
+      "fix": "Revisa el principio de medición en la hoja de datos y elige un sensor de {variable}.",
+      "lessonId": "sen_magnitud"
+    },
+    "S02_range": {
+      "title": "El rango del sensor no cubre el proceso",
+      "message": "{sensor} mide de {sensorRange} y la misión necesita ver de {needed}. Fuera de su rango, la lectura se satura.",
+      "fix": "Elige un sensor cuyo rango incluya los valores de alarma con margen.",
+      "lessonId": "sen_rango"
+    },
+    "S03_accuracy": {
+      "title": "Exactitud insuficiente",
+      "message": "La exactitud de {sensor} es ±{value}, mayor que la mitad de la banda permitida (±{limit}). El sistema puede creer que está en rango cuando no lo está.",
+      "fix": "Elige un sensor con una exactitud varias veces menor que la tolerancia.",
+      "lessonId": "sen_exactitud"
+    },
+    "S03_accuracy_marginal": {
+      "title": "Exactitud con poco margen",
+      "message": "La exactitud de {sensor} (±{value}) consume buena parte de la tolerancia (±{limit}).",
+      "fix": "Calibra el sensor contra un instrumento patrón o elige uno más exacto.",
+      "lessonId": "sen_exactitud"
+    },
+    "S04_supply": {
+      "title": "El sensor no recibe la tensión que necesita",
+      "message": "{sensor} funciona con {supply} y la fuente elegida solo ofrece {rails}. El sensor queda apagado.",
+      "fix": "Elige una fuente con el riel adecuado o un sensor compatible con los rieles disponibles.",
+      "lessonId": "arq_bloques"
+    },
+    "S05_no_adc": {
+      "title": "Sensor analógico sin conversor",
+      "message": "{sensor} entrega una tensión analógica y {controller} no tiene conversor analógico-digital. No hay lectura.",
+      "fix": "Usa un controlador con ADC, un ADC externo por I²C (como el ADS1115) o un sensor digital.",
+      "lessonId": "sen_niveles_logicos"
+    },
+    "S06_overrange": {
+      "title": "Señal analógica por encima del ADC",
+      "message": "{sensor} entrega hasta {value} V y el ADC de {controller} admite {limit} V. Las lecturas se saturan y el pin puede dañarse.",
+      "fix": "Activa el acondicionamiento de señal (divisor resistivo) para escalar la tensión.",
+      "lessonId": "sen_niveles_logicos"
+    },
+    "S07_level_5v_to_3v3": {
+      "title": "Señal de 5 V en un pin de 3.3 V",
+      "message": "{sensor} trabaja con lógica de 5 V y {controller} no tolera más de 3.3 V. Las lecturas serán intermitentes y el pin se degradará.",
+      "fix": "Activa el acondicionamiento de señal: un adaptador de nivel lógico o un divisor resistivo.",
+      "lessonId": "sen_niveles_logicos"
+    },
+    "S07_level_3v3_to_5v": {
+      "title": "Sensor de 3.3 V en una placa de 5 V",
+      "message": "{sensor} no tolera 5 V y {controller} trabaja con lógica de 5 V. Las resistencias de pull-up aplican 5 V a sus pines.",
+      "fix": "Activa el acondicionamiento de señal con un adaptador de nivel bidireccional.",
+      "lessonId": "sen_niveles_logicos"
+    },
+    "S08_adc_resolution": {
+      "title": "Resolución analógica gruesa",
+      "message": "Con {controller}, cada paso del ADC más su ruido equivale a unos {value} en la lectura de {sensor}.",
+      "fix": "Promedia varias lecturas, calibra el ADC o usa un sensor digital.",
+      "lessonId": "sen_exactitud"
+    },
+    "S09_min_interval": {
+      "title": "Muestreo más rápido que el sensor",
+      "message": "Muestreas cada {value} s, pero {sensor} solo entrega una lectura nueva cada {limit} s. Estás repitiendo datos viejos.",
+      "fix": "Ajusta el muestreo al intervalo mínimo del sensor.",
+      "lessonId": "sen_ancho_banda"
+    },
+    "S10_not_sealed": {
+      "title": "Sensor expuesto al ambiente",
+      "message": "{sensor} no está sellado y el lugar es {environment}. La humedad o el polvo lo dañarán en semanas.",
+      "fix": "Elige una versión sellada o prevé una caja con grado de protección IP adecuado.",
+      "lessonId": "sen_corrosion"
+    },
+    "S11_drift": {
+      "title": "Deriva por corrosión",
+      "message": "La lectura de {sensor} deriva cerca de {value} por día: después de una semana el control estará desplazado.",
+      "fix": "Prefiere un principio sin electrodos expuestos o alimenta el sensor solo al medir.",
+      "lessonId": "sen_corrosion"
+    },
+    "S12_bandwidth": {
+      "title": "Ancho de banda insuficiente",
+      "message": "El fenómeno ocurre a {limit} Hz y {sensor} responde hasta {value} Hz: solo ve el {pct} % de la vibración real.",
+      "fix": "Elige un acelerómetro con ancho de banda mayor que la frecuencia del defecto.",
+      "lessonId": "sen_ancho_banda"
+    },
+    "P01_sensor_ok": {
+      "title": "Sensor bien elegido",
+      "message": "{sensor} mide la variable correcta, cubre el rango y se conecta sin conflictos al controlador.",
+      "fix": "",
+      "lessonId": "sen_exactitud"
+    },
+    "C01_no_effect": {
+      "title": "El actuador no actúa sobre la variable",
+      "message": "{actuator} no modifica {variable}. El sistema detecta el problema, pero no puede corregirlo.",
+      "fix": "Elige un actuador que cambie físicamente la variable controlada.",
+      "lessonId": "act_dimensionamiento"
+    },
+    "C02_wrong_direction": {
+      "title": "El actuador empuja en sentido contrario",
+      "message": "La misión necesita {direction} {variable} y {actuator} hace lo opuesto.",
+      "fix": "Revisa si el proceso necesita aportar o retirar energía, agua o aire.",
+      "lessonId": "act_dimensionamiento"
+    },
+    "C03_gpio_overcurrent": {
+      "title": "Carga conectada directamente al GPIO",
+      "message": "{actuator} consume {value} mA y un pin de {controller} entrega como máximo {limit} mA. El pin se dañó en el primer encendido.",
+      "fix": "Intercala una etapa de potencia: un MOSFET de nivel lógico o un relé.",
+      "lessonId": "act_etapas_potencia"
+    },
+    "C04_load_voltage": {
+      "title": "Falta la tensión de la carga",
+      "message": "{actuator} necesita {value} V y {power} no ofrece ese riel.",
+      "fix": "Elige una fuente que entregue la tensión de la carga.",
+      "lessonId": "act_dimensionamiento"
+    },
+    "C05_power_capacity": {
+      "title": "La fuente no entrega la corriente de la carga",
+      "message": "{actuator} consume {value} A y {power} entrega como máximo {limit} A. Cada vez que la carga se enciende, la tensión cae y el controlador se reinicia.",
+      "fix": "Elige una fuente con corriente mayor que la de la carga, con margen.",
+      "lessonId": "act_dimensionamiento"
+    },
+    "C06_relay_pwm": {
+      "title": "Relé con control continuo",
+      "message": "El algoritmo {algorithm} necesita valores intermedios, pero un relé solo enciende o apaga. Además, conmutar un relé con PWM lo destruye.",
+      "fix": "Usa un MOSFET de nivel lógico o cambia a encendido/apagado con histéresis.",
+      "lessonId": "ctl_proporcional"
+    },
+    "C07_mosfet_gate": {
+      "title": "MOSFET estándar con lógica de baja tensión",
+      "message": "El IRF540N especifica su conducción con 10 V en la compuerta. Con la lógica de {controller} entrega solo cerca del {value} % de la potencia y se calienta.",
+      "fix": "Usa un MOSFET de nivel lógico, como el IRLZ44N.",
+      "lessonId": "act_etapas_potencia"
+    },
+    "C08_switch_rate": {
+      "title": "Demasiadas conmutaciones",
+      "message": "{actuator} conmutó {value} veces por hora y admite {limit}. A este ritmo su vida útil se reduce drásticamente.",
+      "fix": "Aumenta la histéresis o agrega un tiempo mínimo de encendido y de apagado.",
+      "lessonId": "act_limites_ciclo"
+    },
+    "C09_driver_supply": {
+      "title": "El módulo de potencia no tiene alimentación",
+      "message": "La bobina del relé de {actuator} necesita 5 V y {power} no ofrece ese riel.",
+      "fix": "Elige una fuente con riel de 5 V o una etapa de potencia de estado sólido.",
+      "lessonId": "act_etapas_potencia"
+    },
+    "C10_undersized": {
+      "title": "Actuador saturado",
+      "message": "La salida estuvo al máximo el {value} % del tiempo y aun así no se sostuvo la banda.",
+      "fix": "Revisa la capacidad del actuador frente a la peor perturbación, o la etapa de potencia.",
+      "lessonId": "act_dimensionamiento"
+    },
+    "P02_actuator_ok": {
+      "title": "Etapa de potencia correcta",
+      "message": "{actuator} actúa en el sentido correcto y su etapa de potencia es compatible con el controlador y la fuente.",
+      "fix": "",
+      "lessonId": "act_etapas_potencia"
+    },
+    "K01_no_remote": {
+      "title": "Sin enlace remoto",
+      "message": "La misión exige avisar a una persona a distancia y el diseño no tiene comunicación.",
+      "fix": "Agrega un enlace compatible con la infraestructura del lugar.",
+      "lessonId": "com_alcance"
+    },
+    "K02_infra_missing": {
+      "title": "Falta la infraestructura del enlace",
+      "message": "{comm} necesita {infra} y en el lugar no hay. {site}",
+      "fix": "Elige una tecnología que use la infraestructura disponible.",
+      "lessonId": "com_alcance"
+    },
+    "K03_out_of_range": {
+      "title": "Fuera de alcance",
+      "message": "El destino está a {value} m y {comm} alcanza unos {limit} m.",
+      "fix": "Elige un enlace de mayor alcance o acerca la infraestructura.",
+      "lessonId": "com_alcance"
+    },
+    "K04_duty_cycle": {
+      "title": "Excede el tiempo en el aire permitido",
+      "message": "Reportas cada {value} s y {comm} permite como máximo un mensaje cada {limit} s. La red descarta el exceso.",
+      "fix": "Aumenta el intervalo de reporte o envía solo cuando el dato cambie.",
+      "lessonId": "com_lora"
+    },
+    "K06_hostile_link": {
+      "title": "Enlace degradado por el entorno",
+      "message": "En este lugar {comm} pierde cerca del {value} % de los paquetes.",
+      "fix": "Activa el almacenamiento y reenvío o elige un enlace más robusto.",
+      "lessonId": "com_industrial"
+    },
+    "P06_link_ok": {
+      "title": "Enlace adecuado",
+      "message": "{comm} usa la infraestructura disponible y llega sin problemas al destino.",
+      "fix": "",
+      "lessonId": "com_alcance"
+    },
+    "I01_delivery": {
+      "title": "Datos perdidos",
+      "message": "Llegó el {value} % de los reportes esperados y se exige al menos {limit} %.",
+      "fix": "Revisa el enlace y activa el almacenamiento y reenvío.",
+      "lessonId": "iot_qos"
+    },
+    "I02_report_slow": {
+      "title": "Reporte menos frecuente de lo requerido",
+      "message": "Reportas cada {value} s y la misión pide un dato cada {limit} s.",
+      "fix": "Ajusta el intervalo de reporte al requisito.",
+      "lessonId": "iot_reporte"
+    },
+    "I03_no_retry": {
+      "title": "Sin almacenamiento y reenvío",
+      "message": "El enlace pierde mensajes o sufre cortes, y el firmware descarta lo que no logra enviar. Se perdieron {value} mensajes.",
+      "fix": "Activa «Almacenar y reenviar» (QoS 1).",
+      "lessonId": "iot_qos"
+    },
+    "I04_monthly_cost": {
+      "title": "Costo operativo mensual",
+      "message": "{comm} implica un plan de datos de S/ {value} al mes por equipo.",
+      "fix": "Inclúyelo en el presupuesto anual del proyecto.",
+      "lessonId": "com_celular"
+    },
+    "I06_report_too_often": {
+      "title": "Reportes innecesariamente frecuentes",
+      "message": "Reportas cada {value} s cuando basta con uno cada {limit} s: gastas energía y datos.",
+      "fix": "Separa el muestreo del control del intervalo de reporte.",
+      "lessonId": "iot_reporte"
+    },
+    "P03_retry_ok": {
+      "title": "Entrega garantizada",
+      "message": "El almacenamiento y reenvío recuperó los mensajes afectados por pérdidas o cortes: llegó el {value} % de los reportes.",
+      "fix": "",
+      "lessonId": "iot_qos"
+    },
+    "L01_time_in_band": {
+      "title": "La variable no se mantuvo en la banda",
+      "message": "La variable estuvo dentro de la banda el {value} % del tiempo y se exige {limit} %.",
+      "fix": "Revisa la exactitud del sensor, el periodo de muestreo y el algoritmo de control.",
+      "lessonId": "ctl_histeresis"
+    },
+    "L02_setpoint_outside": {
+      "title": "Consigna fuera de la banda",
+      "message": "La consigna es {value} y la banda permitida va de {low} a {high}.",
+      "fix": "Ubica la consigna dentro de la banda, idealmente cerca de su centro.",
+      "lessonId": "ctl_histeresis"
+    },
+    "L03_no_hysteresis": {
+      "title": "Encendido/apagado sin histéresis",
+      "message": "Sin banda muerta, el ruido del sensor hace que el actuador conmute muchas veces alrededor de la consigna.",
+      "fix": "Usa histéresis o un control proporcional.",
+      "lessonId": "ctl_histeresis"
+    },
+    "L04_hysteresis_wide": {
+      "title": "Histéresis más ancha que la banda",
+      "message": "La histéresis ({value}) es mayor que toda la banda permitida ({limit}): la oscilación se sale de ella.",
+      "fix": "Reduce la histéresis por debajo del ancho de la banda.",
+      "lessonId": "ctl_histeresis"
+    },
+    "L05_sampling_slow": {
+      "title": "Muestreo lento para este proceso",
+      "message": "Muestreas cada {value} s y el proceso cambia lo suficiente como para necesitar al menos una muestra cada {limit} s.",
+      "fix": "Reduce el periodo de muestreo.",
+      "lessonId": "sen_ancho_banda"
+    },
+    "L06_no_latch": {
+      "title": "Parada de seguridad sin enclavamiento",
+      "message": "Cuando el motor se detiene, la vibración baja y el control lo vuelve a arrancar sobre un rodamiento dañado.",
+      "fix": "Usa el algoritmo «Disparo con enclavamiento».",
+      "lessonId": "ctl_enclavamiento"
+    },
+    "L07_blocking": {
+      "title": "Firmware bloqueante",
+      "message": "Las esperas del sensor y de la radio detuvieron el lazo de control {value} s en total durante la simulación.",
+      "fix": "Usa un bucle no bloqueante con millis() o separa las tareas con un RTOS.",
+      "lessonId": "arq_firmware"
+    },
+    "L08_alarm_latency": {
+      "title": "La alerta llegó tarde",
+      "message": "{value} El máximo permitido es {limit} s.",
+      "fix": "Revisa el muestreo, el enlace y el almacenamiento y reenvío.",
+      "lessonId": "iot_qos"
+    },
+    "L09_false_alarms": {
+      "title": "Falsas alarmas",
+      "message": "Se enviaron {value} alertas sin que la variable real se acercara al umbral. Las falsas alarmas hacen que la gente deje de atenderlas.",
+      "fix": "Mejora la exactitud del sensor o agrega histéresis a la alarma.",
+      "lessonId": "sen_exactitud"
+    },
+    "L10_action_latency": {
+      "title": "La parada llegó tarde",
+      "message": "{value} El máximo permitido es {limit} s.",
+      "fix": "Reduce el periodo de muestreo y verifica que el sensor vea el defecto.",
+      "lessonId": "sen_ancho_banda"
+    },
+    "L11_sleep_pwm": {
+      "title": "PWM detenido durante el sueño",
+      "message": "El algoritmo {algorithm} necesita una salida PWM continua, pero el sueño profundo la detiene entre muestras.",
+      "fix": "Desactiva el bajo consumo o usa un control de encendido/apagado con retención de salida.",
+      "lessonId": "arq_bajo_consumo"
+    },
+    "P04_latch_ok": {
+      "title": "Parada enclavada",
+      "message": "El disparo queda enclavado: el motor no vuelve a arrancar hasta un rearme manual.",
+      "fix": "",
+      "lessonId": "ctl_enclavamiento"
+    },
+    "P05_autonomy_ok": {
+      "title": "Autonomía suficiente",
+      "message": "Con la batería llena, el sistema funciona {value} días sin sol.",
+      "fix": "",
+      "lessonId": "arq_energia"
+    }
+  }
+}
