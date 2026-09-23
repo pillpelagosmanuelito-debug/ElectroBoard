@@ -204,8 +204,11 @@ class _BudgetBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('Costo del hardware', style: TextStyle(color: BoardColors.silkDim, fontSize: 12.5)),
-              const Spacer(),
+              const Expanded(
+                child: Text('Costo del hardware',
+                    overflow: TextOverflow.ellipsis, style: TextStyle(color: BoardColors.silkDim, fontSize: 12.5)),
+              ),
+              const SizedBox(width: 8),
               Text('${fmtPen(cost)} / ${fmtPen(budget)}',
                   style: BoardTheme.mono.copyWith(color: color, fontWeight: FontWeight.w700)),
             ],

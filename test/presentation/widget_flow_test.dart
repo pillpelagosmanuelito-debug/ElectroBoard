@@ -42,7 +42,9 @@ void main() {
 
     await tester.tap(find.text('Incubadora avícola inteligente').last);
     await tester.pumpAndSettle();
-    expect(find.text('Requisitos que se evaluarán'.toUpperCase()), findsOneWidget);
+    final requisitos = find.text('Requisitos que se evaluarán'.toUpperCase());
+    await tester.scrollUntilVisible(requisitos, 300);
+    expect(requisitos, findsOneWidget);
 
     await tester.tap(find.text('Abrir el tablero de diseño'));
     await tester.pumpAndSettle();
@@ -100,13 +102,16 @@ void main() {
 
   testWidgets('una lección registra la respuesta de control', (tester) async {
     final container = await pumpApp(tester);
-    await tester.scrollUntilVisible(find.text('Sensores').last, 300);
+    await tester.scrollUntilVisible(find.text('Sensores'), 300);
     await tester.tap(find.text('Sensores').last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Rango y zona ciega'));
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Porque no mide por debajo de 2 °C'), 300);
-    await tester.tap(find.text('Porque no mide por debajo de 2 °C'));
+    final opcion = find.text('Porque no mide por debajo de 2 °C');
+    await tester.scrollUntilVisible(opcion, 300);
+    await tester.ensureVisible(opcion);
+    await tester.pumpAndSettle();
+    await tester.tap(opcion);
     await tester.pumpAndSettle();
     expect(container.read(progressProvider).lessonAnswers['sen_rango'], 1);
     expect(find.textContaining('¡Correcto!'), findsOneWidget);

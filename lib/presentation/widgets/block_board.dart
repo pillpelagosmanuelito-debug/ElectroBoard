@@ -48,9 +48,9 @@ class BlockBoard extends StatelessWidget {
       final w = constraints.maxWidth;
       final cw = (w - 2 * _gap) / 3;
       const yRow = _powerH + _vGap;
-      final yComm = yRow + _rowH + _vGap;
-      final yLogic = yComm + _commH + _vGap;
-      final total = yLogic + _logicH;
+      const yComm = yRow + _rowH + _vGap;
+      const yLogic = yComm + _commH + _vGap;
+      const total = yLogic + _logicH;
 
       final rects = <PartKind, Rect>{
         PartKind.power: Rect.fromLTWH(0, 0, w, _powerH),
