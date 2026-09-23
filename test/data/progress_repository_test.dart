@@ -3,7 +3,7 @@ import 'package:electroboard/data/repositories/prefs_progress_repository.dart';
 import 'package:electroboard/data/sources/json_source.dart';
 import 'package:electroboard/domain/model/design.dart';
 import 'package:electroboard/domain/model/evaluation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' hide Evaluation;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../support/test_content.dart';

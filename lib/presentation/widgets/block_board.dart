@@ -47,7 +47,7 @@ class BlockBoard extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       final w = constraints.maxWidth;
       final cw = (w - 2 * _gap) / 3;
-      final yRow = _powerH + _vGap;
+      const yRow = _powerH + _vGap;
       final yComm = yRow + _rowH + _vGap;
       final yLogic = yComm + _commH + _vGap;
       final total = yLogic + _logicH;

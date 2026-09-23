@@ -97,9 +97,9 @@ class ReportView extends ConsumerWidget {
                       .push(MaterialPageRoute(builder: (_) => LessonView(lessonId: f.lessonId))),
                 ),
             ],
-          BoardPanel(
-            margin: const EdgeInsets.fromLTRB(16, 16, 16, 6),
-            child: const Text(
+          const BoardPanel(
+            margin: EdgeInsets.fromLTRB(16, 16, 16, 6),
+            child: Text(
               'El evaluador aplica reglas deterministas sobre tu diseño y sobre la simulación: el mismo diseño '
               'siempre recibe el mismo informe. Cada hallazgo indica la regla, el valor que la activó y la lección '
               'que la explica.',

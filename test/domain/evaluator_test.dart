@@ -6,7 +6,7 @@ import 'package:electroboard/domain/model/evaluation.dart';
 import 'package:electroboard/domain/model/finding.dart';
 import 'package:electroboard/domain/model/learning.dart';
 import 'package:electroboard/domain/model/mission.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' hide Evaluation;
 
 import '../support/test_content.dart';
 
